@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Fresht" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Fresht</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+  <meta name="theme-color" content="#e2da5c">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <link rel="shortcut icon" type="image/x-icon" href="favicon@16x.ico">
+  <link rel="icon" href="favicon@32x.ico" sizes="32x32">
+
+  <link rel="icon" sizes="192x192" href="images/icons/launcher-icon-4x.png">
+  <link rel="icon" sizes="96x96" href="images/icons/launcher-icon-2x.png">
+  <link rel="apple-touch-icon" sizes="128x128" href="images/icons/launcher-icon-128.png">
+  <link rel="apple-touch-icon-precomposed" sizes="128x128" href="images/icons/launcher-icon-128.png">
+
+  <link rel="manifest" href="manifest.json">
+
+  <link rel="stylesheet" href="css/main.css"/>
+
+  <script src="js/libs/bower/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+    <header ng-controller="headerCtrl as header">
+        <h1><span>Fresht</span></h1>
+
+        <button class="refresh" ng-click="header.clearMovies()"><span>Refresh</span></button>
+        <!-- <nav></nav> -->
+    </header>
+
+    <main class="main">
+        <p class="intro">Quickly compare two movies by their Rotten Tomatoes<sup>TM</sup> ratings.</p>
+
+        <div class="movie-search" ng-controller="searchCtrl as search">
+            <form>
+                <div class="movie-search__field">
+                    <input type="text" id="movie-title" name="movie-title" ng-model="search.title">
+                </div>
+
+                <div class="movie-search__field">
+                    <button type="submit" ng-click="search.start()">Search</button>
+                    <button class="movie-search__clear" ng-click="search.clear()">Clear search</button>
+                </div>
+            </form>
+
+            <ul class="movie-search__results" ng-show="search.results">
+                <li ng-repeat="movie in search.results">
+                    <h4>{{ movie.title }}</h4>
+                    <p class="cast">{{ movie.cast }}</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="comparison" ng-controller="compareCtrl as compare">
+            <div class="movie movie--0">
+                <button class="movie__add" ng-click="compare.add(0)" ng-hide="compare.movies[0]">Add Movie</button>
+
+                <movie-data ng-show="compare.movies[0]" movie="compare.movies[0]"></movie-data>
+            </div>
+
+            <p class="vs">
+                <abbr title="Versus">Vs.</abbr>
+            </p>
+
+            <div class="movie movie--1">
+                <button class="movie__add" ng-click="compare.add(1)" ng-hide="compare.movies[1]">Add Movie</button>
+
+                <movie-data ng-show="compare.movies[1]" movie="compare.movies[1]"></movie-data>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/libs/bower/angular/angular.min.js"></script>
+    <!--<script src="js/libs/bower/angular-cookies/angular-cookies.min.js"></script>-->
+    <!--<script src="js/libs/underscore-min.js"></script>-->
+
+    <script src="js/app.js"></script>
+    <script src="js/directives/movieData.js"></script>
+    <script src="js/controllers/compareCtrl.js"></script>
+    <script src="js/controllers/headerCtrl.js"></script>
+    <script src="js/controllers/searchCtrl.js"></script>
+</body>
+</html>

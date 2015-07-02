@@ -1,6 +1,5 @@
 TODO:
 
-- fix 'more' data handling
 - tidy code, reorg
 
 - styles, all the styles

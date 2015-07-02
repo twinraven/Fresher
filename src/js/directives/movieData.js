@@ -1,16 +1,22 @@
 App.directive('movieData', [
-    function () {
+    'moviesService',
+    function (moviesService) {
         return {
             restrict: 'E',
             replace: 'true',
             scope: {
                 movie: '='
             },
-            controllerAs: 'data',
             templateUrl: 'partials/movie-data.html',
 
             link: function(scope, elem, attrs) {
-                scope.data = scope.movie;
+                scope.more = function more(id) {
+                    //
+                };
+
+                scope.remove = function more(id) {
+                    moviesService.remove(id);
+                };
             }
         };
     }

@@ -1,6 +1,7 @@
 App.controller('compareCtrl', [
     '$location',
-    function($location) {
+    'moviesService',
+    function($location, moviesService) {
         'use strict';
 
         var compare = this;
@@ -13,18 +14,6 @@ App.controller('compareCtrl', [
             //compare.movies[1] = moviesService.getMovieDataById($routeParams.id1);
         }
 
-        compare.movies = [];
-
-        /*{
-            id: 1121210,
-            title: 'movie title',
-            imageUrl: 'something.jpg',
-            rating: 72
-        }*/
-
-        compare.add = function add(id) {
-            // focus the fucking input field. Why is this hard?
-        };
-
+        compare.movies = moviesService.getMovies();
     }
 ]);

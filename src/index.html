@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Fresht</title>
+  <title>Angular</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
   <meta name="theme-color" content="#e2da5c">
@@ -25,19 +25,19 @@
 </head>
 <body>
     <header ng-controller="headerCtrl as header">
-        <h1><span>Fresht</span></h1>
+       <!--  <h1><span>Fresht</span></h1> -->
 
         <button class="refresh" ng-click="header.clearMovies()"><span>Refresh</span></button>
         <!-- <nav></nav> -->
     </header>
 
     <main class="main">
-        <p class="intro">Quickly compare two movies by their Rotten Tomatoes<sup>TM</sup> ratings.</p>
+        <!-- <p class="intro">Quickly compare two movies by their Rotten Tomatoes<sup>TM</sup> ratings.</p> -->
 
-        <div class="movie-search" ng-controller="searchCtrl as search">
+        <div class="movie-search" ng-controller="searchCtrl as search" ng-show="search.state.active">
             <form>
                 <div class="movie-search__field">
-                    <input type="text" id="movie-title" name="movie-title" class="movie-title" ng-model="search.title">
+                    <input type="text" id="movie-title" name="movie-title" class="movie-title" ng-model="search.title" has-focus-when="search.state.active">
                 </div>
 
                 <div class="movie-search__field">
@@ -48,8 +48,10 @@
 
             <ul class="movie-search__results" ng-show="search.results">
                 <li ng-repeat="movie in search.results">
-                    <h4 ng-bind="movie.title"></h4>
-                    <p class="cast" ng-bind="movie.cast"></p>
+                    <a href="javascript:;" ng-click="search.use($index)">
+                        <h4 ng-bind="movie.title"></h4>
+                        <p class="cast" ng-bind="movie.cast"></p>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -77,12 +79,15 @@
 
     <script src="js/libs/bower/angular/angular.min.js"></script>
     <script src="js/libs/bower/angular-route/angular-route.min.js"></script>
-    <!--<script src="js/libs/underscore-min.js"></script>-->
+    <script src="js/libs/underscore-min.js"></script>
 
     <script src="js/app.js"></script>
     <!-- <script src="js/router/router.js"></script> -->
     <script src="js/directives/movieData.js"></script>
+    <script src="apikey.js"></script>
     <script src="js/directives/addMovie.js"></script>
+    <script src="js/directives/hasFocusWhen.js"></script>
+    <script src="js/services/moviesService.js"></script>
     <script src="js/controllers/compareCtrl.js"></script>
     <script src="js/controllers/headerCtrl.js"></script>
     <script src="js/controllers/searchCtrl.js"></script>

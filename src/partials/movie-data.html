@@ -1,13 +1,13 @@
 <div class="movie-data">
-    <h2 class="movie-data__title">{{ data.title }}</h2>
+    <h2 class="movie-data__title">{{ movie.title }}</h2>
 
-    <img ng-src="{{ data.imageUrl }}" class="movie-data__img">
-
-    <a class="movie-data__more"><span>More</span></a>
-    <button class="movie-data__remove"><span>Remove</span></button>
+    <img ng-src="{{ movie.imageUrl }}" class="movie-data__img">
 
     <div class="movie-data__rating">
-        <p>Rotten Tomatoes Rating: {{ data.rating }}%</p>
+        <p>Rotten Tomatoes Rating: {{ movie.ratings.critics_score }}%</p>
         <p>etc</p>
     </div>
+
+    <a href="javascript:;" class="movie-data__more" ng-click="more(movie.id)"><span>More</span></a>
+    <button class="movie-data__remove" ng-click="remove(movie.id)"><span>Remove</span></button>
 </div>

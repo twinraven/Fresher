@@ -1,5 +1,6 @@
 App.directive('addMovie', [
-    function () {
+    'moviesService',
+    function (moviesService) {
         return {
             restrict: 'E',
             replace: 'true',
@@ -14,7 +15,8 @@ App.directive('addMovie', [
                 scope.add = function add() {
                     // focus search field
                     // show loading spinner etc?
-                    // moviesService.getMovieDataById(id);
+
+                    moviesService.setSearchState(true);
                 };
             }
         };

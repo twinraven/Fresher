@@ -27,17 +27,17 @@
     <header ng-controller="headerCtrl as header">
        <!--  <h1><span>Fresht</span></h1> -->
 
-        <button class="refresh" ng-click="header.clearMovies()"><span>Refresh</span></button>
+        <button class="refresh" ng-click="header.reset()"><span>Refresh</span></button>
         <!-- <nav></nav> -->
     </header>
 
     <main class="main">
         <!-- <p class="intro">Quickly compare two movies by their Rotten Tomatoes<sup>TM</sup> ratings.</p> -->
 
-        <div class="movie-search" ng-controller="searchCtrl as search" ng-show="search.state.active">
+        <div class="movie-search" ng-controller="searchCtrl as search" ng-show="search.state.searchActive">
             <form>
                 <div class="movie-search__field">
-                    <input type="text" id="movie-title" name="movie-title" class="movie-title" ng-model="search.title" has-focus-when="search.state.active">
+                    <input type="text" id="movie-title" name="movie-title" class="movie-title" ng-model="search.title" has-focus-when="search.state.searchActive">
                 </div>
 
                 <div class="movie-search__field">
@@ -54,6 +54,8 @@
                     </a>
                 </li>
             </ul>
+
+            <button class="movie-search__close" ng-click="search.close()">Close</button>
         </div>
 
         <hr>
@@ -62,7 +64,7 @@
             <div class="movie movie--0">
                 <add-movie movie="compare.movies[0]"></add-movie>
 
-                <movie-data ng-show="compare.movies[0]" movie="compare.movies[0]"></movie-data>
+                <movie-tile ng-show="compare.movies[0]" movie="compare.movies[0]" more-data="compare.moreData"></movie-tile>
             </div>
 
             <p class="vs">
@@ -72,8 +74,10 @@
             <div class="movie movie--1">
                 <add-movie movie="compare.movies[1]"></add-movie>
 
-                <movie-data ng-show="compare.movies[1]" movie="compare.movies[1]"></movie-data>
+                <movie-tile ng-show="compare.movies[1]" movie="compare.movies[1]" more-data="compare.moreData"></movie-tile>
             </div>
+
+            <movie-full more-data="compare.moreData" ng-show="compare.state.moreActive"></movie-full>
         </div>
     </main>
 
@@ -83,11 +87,15 @@
 
     <script src="js/app.js"></script>
     <!-- <script src="js/router/router.js"></script> -->
-    <script src="js/directives/movieData.js"></script>
     <script src="apikey.js"></script>
+
+    <script src="js/directives/movieTile.js"></script>
+    <script src="js/directives/movieFull.js"></script>
     <script src="js/directives/addMovie.js"></script>
     <script src="js/directives/hasFocusWhen.js"></script>
+
     <script src="js/services/moviesService.js"></script>
+
     <script src="js/controllers/compareCtrl.js"></script>
     <script src="js/controllers/headerCtrl.js"></script>
     <script src="js/controllers/searchCtrl.js"></script>

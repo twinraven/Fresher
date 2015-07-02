@@ -15,5 +15,7 @@ App.controller('compareCtrl', [
         }
 
         compare.movies = moviesService.getMovies();
+
+        compare.state = moviesService.getState();
     }
 ]);

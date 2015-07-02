@@ -1,7 +1,7 @@
 <div class="movie-data">
     <h2 class="movie-data__title">{{ movie.title }}</h2>
 
-    <img ng-src="{{ movie.imageUrl }}" class="movie-data__img">
+    <img ng-src="{{ movie.posters.thumbnail }}" class="movie-data__img">
 
     <div class="movie-data__rating">
         <p>Rotten Tomatoes Rating: {{ movie.ratings.critics_score }}%</p>

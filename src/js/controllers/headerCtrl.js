@@ -1,9 +1,11 @@
 App.controller('headerCtrl', [
-    function() {
+	'moviesService',
+	'$timeout',
+    function(moviesService, $timeout) {
         'use strict';
 
-        this.clearMovies = function clearMovies() {
-            // hmm
+        this.reset = function reset() {
+            moviesService.clearMovies();
         };
     }
 ]);

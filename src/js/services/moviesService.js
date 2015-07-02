@@ -4,7 +4,6 @@ App.service('moviesService', [
     function($http, $timeout) {
         var movies = [],
             methods = {},
-            state = {active: false},
             searchUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=%SEARCH%&page_limit=20&page=1&apikey=%APIKEY%',
             movieUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies/%ID%.json?apikey=%APIKEY%';
 
@@ -12,6 +11,10 @@ App.service('moviesService', [
 
         methods.getMovies = function getMovies() {
             return movies;
+        };
+
+        methods.clearMovies = function clearMovies() {
+            movies.length = 0;
         };
 
         methods.isMovieCached = function isMovieCachedAlready(id) {
@@ -22,16 +25,26 @@ App.service('moviesService', [
             return filtered.length;
         };
 
-        methods.setSearchState = function setSearchState(bool) {
-            //$timeout(function () {
-                state.active = bool;
-            //});
+        // MOVE TO SEPARATE SERVICE ###################
 
+        var state = {
+                searchActive: false,
+                moreActive: false
+            };
+
+        methods.setSearchState = function setSearchState(bool) {
+            state.searchActive = bool;
         };
 
-        methods.getSearchState = function getSearchState() {
+        methods.setMoreState = function setMoreState(bool) {
+            state.moreActive = bool;
+        };
+
+        methods.getState = function getState() {
             return state;
         };
+
+        // ###################
 
         methods.save = function save(data) {
             if (methods.isMovieCached(data.id)) {
@@ -74,6 +87,12 @@ App.service('moviesService', [
             var searchUrl = methods.getSearchUrl(str);
 
             return $http.get(searchUrl);
+        };
+
+        methods.getCachedMovieDataById = function getCachedMovieDataById(id) {
+            return _.find(movies, function (movie) {
+                return movie.id === id;
+            });
         };
 
         methods.getMovieDataById = function getMovieDataById(id) {

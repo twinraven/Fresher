@@ -30,13 +30,12 @@ App.controller('searchCtrl', [
         search.use = function use(index) {
             moviesService.save(search.results[index]);
 
-            moviesService.setSearchState(false);
-
-            search.clear();
+            search.close();
         };
 
         search.close = function close() {
             moviesService.setSearchState(false);
+            search.clear();
         };
 
         search.state = moviesService.getState();

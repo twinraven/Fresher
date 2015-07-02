@@ -1,13 +1,13 @@
 <div class="movie-full">
-    <h2 class="movie-full__title">{{moreData.title}} ({{moreData.year}})</h2>
-    <p>Rating: {{moreData.mpaa_rating}}</p>
-    <p>Critic Score: {{moreData.ratings.critics_score}}% ({{moreData.ratings.critics_rating}})</p>
-    <p>Audience Score: {{moreData.ratings.audience_score}}% ({{moreData.ratings.audience_rating}})</p>
-    <p>{{moreData.critics_consensus}}</p>
+    <h2 class="movie-full__title">{{movie.title}} ({{movie.year}})</h2>
+    <p>Rating: {{movie.mpaa_rating}}</p>
+    <p>Critic Score: {{movie.ratings.critics_score}}% ({{movie.ratings.critics_rating}})</p>
+    <p>Audience Score: {{movie.ratings.audience_score}}% ({{movie.ratings.audience_rating}})</p>
+    <p>{{movie.critics_consensus}}</p>
 
     <hr>
 
-    <p>{{moreData.synopsis}}</p>
+    <p>{{movie.synopsis}}</p>
 
     <button class="movie-full__close" ng-click="close()">Close</button>
 </div>

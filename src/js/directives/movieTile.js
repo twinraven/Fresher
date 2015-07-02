@@ -6,8 +6,7 @@ App.directive('movieTile', [
             restrict: 'E',
             replace: 'true',
             scope: {
-                movie: '=',
-                moreData: '='
+                movie: '='
             },
             templateUrl: 'partials/movie-tile.html',
 
@@ -15,7 +14,7 @@ App.directive('movieTile', [
                 scope.more = function more(id) {
                     stateService.setMoreState(true);
 
-                    scope.moreData = moviesService.getCachedMovieDataById(id);
+                    stateService.setActiveMovie(scope.movie.id);
                 };
 
                 scope.remove = function more(id) {

@@ -64,7 +64,7 @@
             <div class="movie movie--0">
                 <add-movie movie="compare.movies[0]"></add-movie>
 
-                <movie-tile ng-show="compare.movies[0]" movie="compare.movies[0]" more-data="compare.moreData"></movie-tile>
+                <movie-tile ng-show="compare.movies[0]" movie="compare.movies[0]"></movie-tile>
             </div>
 
             <p class="vs">
@@ -74,10 +74,10 @@
             <div class="movie movie--1">
                 <add-movie movie="compare.movies[1]"></add-movie>
 
-                <movie-tile ng-show="compare.movies[1]" movie="compare.movies[1]" more-data="compare.moreData"></movie-tile>
+                <movie-tile ng-show="compare.movies[1]" movie="compare.movies[1]"></movie-tile>
             </div>
 
-            <movie-full more-data="compare.moreData" ng-show="compare.state.moreActive"></movie-full>
+            <movie-full ng-show="compare.state.moreActive"></movie-full>
         </div>
     </main>
 

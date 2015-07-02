@@ -1,8 +1,9 @@
 App.controller('compareCtrl', [
     '$location',
+    '$scope',
     'moviesService',
     'stateService',
-    function($location, moviesService, stateService) {
+    function($location, $scope, moviesService, stateService) {
         'use strict';
 
         var compare = this;

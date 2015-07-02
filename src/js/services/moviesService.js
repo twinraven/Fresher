@@ -4,6 +4,7 @@ App.service('moviesService', [
     function($http, $timeout) {
         var movies = [],
             methods = {},
+            fullData = {},
             searchUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=%SEARCH%&page_limit=20&page=1&apikey=%APIKEY%',
             movieUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies/%ID%.json?apikey=%APIKEY%';
 

@@ -37,7 +37,7 @@
         <div class="movie-search" ng-controller="searchCtrl as search">
             <form>
                 <div class="movie-search__field">
-                    <input type="text" id="movie-title" name="movie-title" ng-model="search.title">
+                    <input type="text" id="movie-title" name="movie-title" class="movie-title" ng-model="search.title">
                 </div>
 
                 <div class="movie-search__field">
@@ -48,15 +48,17 @@
 
             <ul class="movie-search__results" ng-show="search.results">
                 <li ng-repeat="movie in search.results">
-                    <h4>{{ movie.title }}</h4>
-                    <p class="cast">{{ movie.cast }}</p>
+                    <h4 ng-bind="movie.title"></h4>
+                    <p class="cast" ng-bind="movie.cast"></p>
                 </li>
             </ul>
         </div>
 
+        <hr>
+
         <div class="comparison" ng-controller="compareCtrl as compare">
             <div class="movie movie--0">
-                <button class="movie__add" ng-click="compare.add(0)" ng-hide="compare.movies[0]">Add Movie</button>
+                <add-movie movie="compare.movies[0]"></add-movie>
 
                 <movie-data ng-show="compare.movies[0]" movie="compare.movies[0]"></movie-data>
             </div>
@@ -66,7 +68,7 @@
             </p>
 
             <div class="movie movie--1">
-                <button class="movie__add" ng-click="compare.add(1)" ng-hide="compare.movies[1]">Add Movie</button>
+                <add-movie movie="compare.movies[1]"></add-movie>
 
                 <movie-data ng-show="compare.movies[1]" movie="compare.movies[1]"></movie-data>
             </div>
@@ -74,11 +76,13 @@
     </main>
 
     <script src="js/libs/bower/angular/angular.min.js"></script>
-    <!--<script src="js/libs/bower/angular-cookies/angular-cookies.min.js"></script>-->
+    <script src="js/libs/bower/angular-route/angular-route.min.js"></script>
     <!--<script src="js/libs/underscore-min.js"></script>-->
 
     <script src="js/app.js"></script>
+    <!-- <script src="js/router/router.js"></script> -->
     <script src="js/directives/movieData.js"></script>
+    <script src="js/directives/addMovie.js"></script>
     <script src="js/controllers/compareCtrl.js"></script>
     <script src="js/controllers/headerCtrl.js"></script>
     <script src="js/controllers/searchCtrl.js"></script>

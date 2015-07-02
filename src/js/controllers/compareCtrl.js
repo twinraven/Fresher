@@ -1,17 +1,29 @@
 App.controller('compareCtrl', [
-    function() {
+    '$location',
+    function($location) {
         'use strict';
 
-        this.movies = [
-            {
-                title: 'movie title',
-                imageUrl: 'something.jpg',
-                rating: 72
-            }
-        ];
+        var compare = this;
 
-        this.add = function add(id) {
-            console.log(angular.element('movie-title'));//.focus();
+        var loc = $location.search();
+
+        if (loc && loc.id0 && loc.id1) {
+            console.log('movie ids found', loc.id0, loc.id1);
+            //compare.movies[0] = moviesService.getMovieDataById($routeParams.id0);
+            //compare.movies[1] = moviesService.getMovieDataById($routeParams.id1);
+        }
+
+        compare.movies = [];
+
+        /*{
+            id: 1121210,
+            title: 'movie title',
+            imageUrl: 'something.jpg',
+            rating: 72
+        }*/
+
+        compare.add = function add(id) {
+            // focus the fucking input field. Why is this hard?
         };
 
     }

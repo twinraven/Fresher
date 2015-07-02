@@ -1,7 +1,5 @@
 App.directive('movieData', [
-    '$window',
-    '$rootScope',
-    function ($window, $rootScope) {
+    function () {
         return {
             restrict: 'E',
             replace: 'true',

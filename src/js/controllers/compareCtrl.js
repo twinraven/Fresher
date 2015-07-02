@@ -1,7 +1,8 @@
 App.controller('compareCtrl', [
     '$location',
     'moviesService',
-    function($location, moviesService) {
+    'stateService',
+    function($location, moviesService, stateService) {
         'use strict';
 
         var compare = this;
@@ -16,6 +17,6 @@ App.controller('compareCtrl', [
 
         compare.movies = moviesService.getMovies();
 
-        compare.state = moviesService.getState();
+        compare.state = stateService.getState();
     }
 ]);

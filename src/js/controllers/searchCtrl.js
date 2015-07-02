@@ -2,7 +2,8 @@ App.controller('searchCtrl', [
     '$scope',
     '$timeout',
     'moviesService',
-    function($scope, $timeout, moviesService) {
+    'stateService',
+    function($scope, $timeout, moviesService, stateService) {
         'use strict';
 
         var search = this;
@@ -34,10 +35,11 @@ App.controller('searchCtrl', [
         };
 
         search.close = function close() {
-            moviesService.setSearchState(false);
+            stateService.setSearchState(false);
+
             search.clear();
         };
 
-        search.state = moviesService.getState();
+        search.state = stateService.getState();
     }
 ]);

@@ -1,6 +1,6 @@
 App.directive('addMovie', [
-    'moviesService',
-    function (moviesService) {
+    'stateService',
+    function (stateService) {
         return {
             restrict: 'E',
             replace: 'true',
@@ -16,7 +16,7 @@ App.directive('addMovie', [
                     // focus search field
                     // show loading spinner etc?
 
-                    moviesService.setSearchState(true);
+                    stateService.setSearchState(true);
                 };
             }
         };

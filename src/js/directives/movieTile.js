@@ -1,6 +1,7 @@
 App.directive('movieTile', [
     'moviesService',
-    function (moviesService) {
+    'stateService',
+    function (moviesService, stateService) {
         return {
             restrict: 'E',
             replace: 'true',
@@ -12,7 +13,7 @@ App.directive('movieTile', [
 
             link: function(scope, elem, attrs) {
                 scope.more = function more(id) {
-                    moviesService.setMoreState(true);
+                    stateService.setMoreState(true);
 
                     scope.moreData = moviesService.getCachedMovieDataById(id);
                 };

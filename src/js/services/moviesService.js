@@ -25,27 +25,6 @@ App.service('moviesService', [
             return filtered.length;
         };
 
-        // MOVE TO SEPARATE SERVICE ###################
-
-        var state = {
-                searchActive: false,
-                moreActive: false
-            };
-
-        methods.setSearchState = function setSearchState(bool) {
-            state.searchActive = bool;
-        };
-
-        methods.setMoreState = function setMoreState(bool) {
-            state.moreActive = bool;
-        };
-
-        methods.getState = function getState() {
-            return state;
-        };
-
-        // ###################
-
         methods.save = function save(data) {
             if (methods.isMovieCached(data.id)) {
                 return;

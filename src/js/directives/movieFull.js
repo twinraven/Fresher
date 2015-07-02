@@ -1,6 +1,6 @@
 App.directive('movieFull', [
-    'moviesService',
-    function (moviesService) {
+    'stateService',
+    function (stateService) {
         return {
             restrict: 'E',
             replace: 'true',
@@ -11,7 +11,7 @@ App.directive('movieFull', [
 
             link: function(scope, elem, attrs) {
                 scope.close = function close() {
-                    moviesService.setMoreState(false);
+                    stateService.setMoreState(false);
                 };
             }
         };

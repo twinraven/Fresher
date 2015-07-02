@@ -1,8 +1,9 @@
 TODO:
 
-- styles, all the styles
+- fix 'more' data handling
 - tidy code, reorg
+
+- styles, all the styles
 - add gulp build tool, and watcher
-- overlay with more information
 - update URL when a comparison is made (2 movies selected)
 - fix routing?

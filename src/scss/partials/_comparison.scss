@@ -1,0 +1,26 @@
+.comparison {
+
+    @include respond-min($cols-3) {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+.movie {
+    flex: 3 1 auto;
+}
+
+.vs {
+    flex: 1 0 auto;
+}
+
+.add-movie {
+    background: #ddd;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    color: #555;
+    height: 5em;
+    text-align: center;
+}

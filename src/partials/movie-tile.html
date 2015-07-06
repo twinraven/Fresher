@@ -1,5 +1,5 @@
 <div class="movie-tile" ng-show="movie">
-    <h2 class="movie-data__title">{{ movie.title }}</h2>
+    <h2 class="movie-data__title">{{ movie.title }} ({{ movie.year }})</h2>
 
     <img ng-src="{{ movie.posters.thumbnail }}" class="movie-data__img">
 
@@ -8,6 +8,6 @@
         <p>etc</p>
     </div>
 
-    <a href="javascript:;" class="movie-data__more" ng-click="more(movie.id)"><span>More</span></a>
-    <button class="movie-data__remove" ng-click="remove(movie.id)"><span>Remove</span></button>
+    <button class="icon icon--more icon--with-text" ng-click="more(movie.id)"><span>More</span></button>
+    <button class="icon icon--close icon--corner" ng-click="remove(movie.id)"><span>Remove</span></button>
 </div>

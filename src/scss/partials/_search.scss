@@ -2,7 +2,7 @@
 	background: #fff;
 	box-sizing: border-box;
 	display: none;
-	padding: 10px;
+	padding: 50px 10px 0;
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -14,9 +14,48 @@
 	}
 
 	@include respond-min($cols-4) {
-		top: 30vh;
+		top: 20px;
 		max-width: #{$cols-3+'px'};
 		left: 50%;
 		transform: translateX(-50%);
 	}
+}
+
+.movie-search__results {
+	list-style: none;
+	margin: 0 -10px;
+	padding: 0;
+
+}
+
+.search-result {
+	border-top: 1px solid #aaa;
+	font-size: 13px;
+
+	&:hover,
+	&:focus {
+		background: #ddd;
+	}
+
+	a {
+		color: #333;
+		display: block;
+		padding: 20px 12px;
+		text-decoration: none;
+	}
+}
+
+.search-result__title {
+	font-size: 15px;
+	margin: 0 0 7px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.search-result__cast {
+	margin: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

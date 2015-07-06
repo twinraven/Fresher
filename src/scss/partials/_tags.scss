@@ -1,7 +1,7 @@
 body {
     background: #eee;
     color: #333;
-    font-family: "Arvo", sans-serif;
+    font-family: Arial, sans-serif;
     text-align: center;
 
     @include respond-min($cols-4) {
@@ -10,7 +10,7 @@ body {
 }
 
 input, select, textarea {
-    font-family: "Arvo", sans-serif;
+    font-family: Arial, sans-serif;
 }
 
 a {

@@ -19,11 +19,11 @@ App.service('moviesService', [
         };
 
         methods.getMovieAtPos = function getMovieAtPos(pos) {
-            if (movies[0] && movies[0].pos == pos) {
+            if (movies[0] && movies[0].pos === pos) {
                 return movies[0];
             }
 
-            if (movies[1] && movies[1].pos == pos) {
+            if (movies[1] && movies[1].pos === pos) {
                 return movies[1];
             }
 

@@ -1,18 +1,18 @@
 {
-  "name": "fresht",
+  "name": "fresher",
   "version": "0.1.0",
   "description": "Quickly compare two movies by their Rotten Tomatoes ratings.",
   "main": "index.html",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/twinraven/Fresht.git"
+    "url": "git+https://github.com/twinraven/Fresher.git"
   },
   "author": "Tom Bran",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/twinraven/Fresht/issues"
+    "url": "https://github.com/twinraven/Fresher/issues"
   },
-  "homepage": "https://github.com/twinraven/Fresht#readme",
+  "homepage": "https://github.com/twinraven/Fresher#readme",
   "devDependencies": {
     "del": "^1.2.0",
     "gulp": "^3.9.0",

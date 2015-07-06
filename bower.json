@@ -1,8 +1,8 @@
 {
-  "name": "fresht",
+  "name": "fresher",
   "description": "Quickly compare two movies by their Rotten Tomatoes ratings.",
   "version": "0.1.0",
-  "homepage": "https://github.com/twinraven/Fresht",
+  "homepage": "https://github.com/twinraven/Fresher",
   "license": "MIT",
   "private": true,
   "dependencies": {

@@ -29,6 +29,12 @@ App.controller('compareCtrl', [
             });
         }
 
+        compare.closeOverlay = function closeOverlay() {
+            stateService.clearAllLoadingState();
+            stateService.setSearchState(false);
+            stateService.setMoreState(false);
+        };
+
         compare.getMovieAtPos = moviesService.getMovieAtPos;
 
         compare.movies = moviesService.getMovies();

@@ -41,6 +41,7 @@
         </div>
 
         <movie-full ng-class="{ 'is-active': compare.state.moreActive }"></movie-full>
-        <span class="overlay" ng-class="{ 'is-active': compare.state.moreActive || compare.state.searchActive }"></span>
+
+        <span class="overlay" ng-click="compare.closeOverlay()" ng-class="{ 'is-active': compare.state.moreActive || compare.state.searchActive }"></span>
     </div>
 </main>

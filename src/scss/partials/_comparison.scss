@@ -34,12 +34,18 @@
     border: 1px solid #aaa;
     border-radius: 3px;
     color: #555;
-    height: 5em;
+    height: 7em;
     margin: auto;
     text-align: center;
+    width: 100%;
 
     .is-loading & {
         opacity: 0.2;
+    }
+
+    @include respond-min($cols-4) {
+        height: 10em;
+        width: 30vw;
     }
 }
 

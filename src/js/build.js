@@ -32,6 +32,12 @@ App.controller('compareCtrl', [
             });
         }
 
+        compare.closeOverlay = function closeOverlay() {
+            stateService.clearAllLoadingState();
+            stateService.setSearchState(false);
+            stateService.setMoreState(false);
+        };
+
         compare.getMovieAtPos = moviesService.getMovieAtPos;
 
         compare.movies = moviesService.getMovies();
@@ -70,8 +76,6 @@ App.controller('searchCtrl', [
         search.clear = function clear() {
             search.results = null;
             search.title = '';
-
-            stateService.clearAllLoadingState();
         };
 
         search.start = function start() {
@@ -94,6 +98,7 @@ App.controller('searchCtrl', [
         };
 
         search.close = function close() {
+            stateService.clearAllLoadingState();
             stateService.setSearchState(false);
 
             search.clear();
@@ -102,22 +107,6 @@ App.controller('searchCtrl', [
         search.state = stateService.getState();
     }
 ]);
-App.filter('prettyTime', function () {
-    'use strict';
-
-    return function(num) {
-        if (num === undefined || num.length === 0) {
-            return num;
-        } else {
-            num = Number(num);
-            var hours = Math.floor(num / 60);
-            var mins = hours * 60;
-            var minsOver = Math.round(num - mins);
-
-            return hours + ' hr. ' + minsOver + ' min.';
-        }
-    };
-});
 App.directive('addMovie', [
     'stateService',
     function (stateService) {
@@ -221,6 +210,22 @@ App.directive('movieTile', [
         };
     }
 ]);
+App.filter('prettyTime', function () {
+    'use strict';
+
+    return function(num) {
+        if (num === undefined || num.length === 0) {
+            return num;
+        } else {
+            num = Number(num);
+            var hours = Math.floor(num / 60);
+            var mins = hours * 60;
+            var minsOver = Math.round(num - mins);
+
+            return hours + ' hr. ' + minsOver + ' min.';
+        }
+    };
+});
 App.config(['$routeProvider', function($routeProvider) {
 	'use strict';
 

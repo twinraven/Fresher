@@ -8,6 +8,7 @@ App.service('stateService', [
                 searchActiveId: null,
                 moreActive: false,
                 activeMovie: null,
+                bestMovie: null,
                 loading: [false, false]
             };
 
@@ -42,6 +43,14 @@ App.service('stateService', [
         methods.clearAllLoadingState = function clearAllLoadingState() {
             methods.setLoadingState(0, false);
             methods.setLoadingState(1, false);
+        };
+
+        methods.setBestMovie = function setBestMovie(id) {
+            state.bestMovie = id;
+        };
+
+        methods.clearBestMovie = function clearBestMovie() {
+            state.bestMovie = null;
         };
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

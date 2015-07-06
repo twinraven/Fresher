@@ -3,7 +3,8 @@
 App.service('moviesService', [
     '$http',
     '$location',
-    function($http, $location) {
+    'stateService',
+    function($http, $location, stateService) {
         'use strict';
 
         var movies = [],
@@ -51,6 +52,9 @@ App.service('moviesService', [
             }
 
             if (movies.length < 2) {
+                methods.clearBestMovie();
+
+                // record whether this movie is in the first or second position in our comparison
                 if (id !== null && id !== undefined) {
                     pos = id;
                 }
@@ -61,6 +65,7 @@ App.service('moviesService', [
 
                 if (movies.length === 2) {
                     methods.addComparisonToUrl();
+                    methods.highlightBestMovie();
                 }
 
             } else {
@@ -75,6 +80,26 @@ App.service('moviesService', [
                 'movie1': movies[0].id,
                 'movie2': movies[1].id
             });
+        };
+
+        methods.highlightBestMovie = function highlightBestMovie() {
+            var best = null;
+
+            if (movies[0].ratings.critics_score > movies[1].ratings.critics_score) {
+                best = 0;
+            }
+
+            if (movies[0].ratings.critics_score < movies[1].ratings.critics_score) {
+                best = 1;
+            }
+
+            if (best !== null) {
+                stateService.setBestMovie(parseInt(movies[best].pos, 10));
+            }
+        };
+
+        methods.clearBestMovie = function clearBestMovie() {
+            stateService.clearBestMovie();
         };
 
         methods.clearUrlParams = function clearUrlParams() {

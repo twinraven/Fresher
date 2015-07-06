@@ -102,6 +102,22 @@ App.controller('searchCtrl', [
         search.state = stateService.getState();
     }
 ]);
+App.filter('prettyTime', function () {
+    'use strict';
+
+    return function(num) {
+        if (num === undefined || num.length === 0) {
+            return num;
+        } else {
+            num = Number(num);
+            var hours = Math.floor(num / 60);
+            var mins = hours * 60;
+            var minsOver = Math.round(num - mins);
+
+            return hours + ' hr. ' + minsOver + ' min.';
+        }
+    };
+});
 App.directive('addMovie', [
     'stateService',
     function (stateService) {
@@ -205,22 +221,6 @@ App.directive('movieTile', [
         };
     }
 ]);
-App.filter('prettyTime', function () {
-    'use strict';
-
-    return function(num) {
-        if (num === undefined || num.length === 0) {
-            return num;
-        } else {
-            num = Number(num);
-            var hours = Math.floor(num / 60);
-            var mins = hours * 60;
-            var minsOver = Math.round(num - mins);
-
-            return hours + ' hr. ' + minsOver + ' min.';
-        }
-    };
-});
 App.config(['$routeProvider', function($routeProvider) {
 	'use strict';
 
@@ -236,7 +236,8 @@ App.config(['$routeProvider', function($routeProvider) {
 App.service('moviesService', [
     '$http',
     '$location',
-    function($http, $location) {
+    'stateService',
+    function($http, $location, stateService) {
         'use strict';
 
         var movies = [],
@@ -284,6 +285,9 @@ App.service('moviesService', [
             }
 
             if (movies.length < 2) {
+                methods.clearBestMovie();
+
+                // record whether this movie is in the first or second position in our comparison
                 if (id !== null && id !== undefined) {
                     pos = id;
                 }
@@ -294,6 +298,7 @@ App.service('moviesService', [
 
                 if (movies.length === 2) {
                     methods.addComparisonToUrl();
+                    methods.highlightBestMovie();
                 }
 
             } else {
@@ -308,6 +313,26 @@ App.service('moviesService', [
                 'movie1': movies[0].id,
                 'movie2': movies[1].id
             });
+        };
+
+        methods.highlightBestMovie = function highlightBestMovie() {
+            var best = null;
+
+            if (movies[0].ratings.critics_score > movies[1].ratings.critics_score) {
+                best = 0;
+            }
+
+            if (movies[0].ratings.critics_score < movies[1].ratings.critics_score) {
+                best = 1;
+            }
+
+            if (best !== null) {
+                stateService.setBestMovie(parseInt(movies[best].pos, 10));
+            }
+        };
+
+        methods.clearBestMovie = function clearBestMovie() {
+            stateService.clearBestMovie();
         };
 
         methods.clearUrlParams = function clearUrlParams() {
@@ -371,6 +396,7 @@ App.service('stateService', [
                 searchActiveId: null,
                 moreActive: false,
                 activeMovie: null,
+                bestMovie: null,
                 loading: [false, false]
             };
 
@@ -405,6 +431,14 @@ App.service('stateService', [
         methods.clearAllLoadingState = function clearAllLoadingState() {
             methods.setLoadingState(0, false);
             methods.setLoadingState(1, false);
+        };
+
+        methods.setBestMovie = function setBestMovie(id) {
+            state.bestMovie = id;
+        };
+
+        methods.clearBestMovie = function clearBestMovie() {
+            state.bestMovie = null;
         };
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

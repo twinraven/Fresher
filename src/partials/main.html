@@ -25,12 +25,10 @@
         <button class="movie-search__close" ng-click="search.close()">Close</button>
     </div>
 
-    <hr>
-
     <div class="comparison" ng-controller="compareCtrl as compare">
         <div class="movie movie--0" ng-class="{ 'is-loading': compare.state.loading[0] }">
             <add-movie movie="compare.getMovieAtPos(0)" id="0"></add-movie>
-            <movie-tile movie="compare.getMovieAtPos(0)"></movie-tile>
+            <movie-tile movie="compare.getMovieAtPos(0)" ng-class="{ 'is-best': compare.state.bestMovie === 0 }"></movie-tile>
         </div>
 
         <p class="vs">
@@ -39,7 +37,7 @@
 
         <div class="movie movie--1" ng-class="{ 'is-loading': compare.state.loading[1] }">
             <add-movie movie="compare.getMovieAtPos(1)" id="1"></add-movie>
-            <movie-tile movie="compare.getMovieAtPos(1)"></movie-tile>
+            <movie-tile movie="compare.getMovieAtPos(1)" ng-class="{ 'is-best': compare.state.bestMovie === 1 }"></movie-tile>
         </div>
 
         <movie-full ng-class="{ 'is-active': compare.state.moreActive }"></movie-full>

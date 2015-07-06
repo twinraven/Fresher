@@ -56,7 +56,7 @@ App.service('moviesService', [
 
                 // record whether this movie is in the first or second position in our comparison
                 if (id !== null && id !== undefined) {
-                    pos = id;
+                    pos = parseInt(id, 10);
                 }
 
                 data.pos = pos;

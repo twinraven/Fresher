@@ -22,6 +22,7 @@ App.directive('movieTile', [
                 scope.remove = function more(id) {
                     moviesService.remove(id);
                     moviesService.clearUrlParams();
+                    moviesService.clearBestMovie();
                 };
             }
         };

@@ -1,109 +1,6 @@
 /*global angular */
 
 var App = angular.module('Fresher', ['ngRoute']);
-App.directive('addMovie', [
-    'stateService',
-    function (stateService) {
-        'use strict';
-
-        return {
-            restrict: 'E',
-            replace: 'true',
-            scope: {
-                movie: '=',
-                id: '@'
-            },
-            bindToController: true,
-            templateUrl: 'partials/add-movie.html',
-
-            link: function(scope, elem, attrs) {
-
-                scope.add = function add() {
-                    stateService.setSearchState(true, scope.id);
-                    stateService.setLoadingState(scope.id, true);
-                };
-            }
-        };
-    }
-]);
-App.directive('hasFocusWhen', [
-    function () {
-        'use strict';
-
-        return {
-            restrict: 'A',
-            scope: {
-                when: '=hasFocusWhen'
-            },
-            link: function(scope, elem, attrs) {
-                scope.$watch("when", function(currentValue, previousValue) {
-                    if (currentValue === true && !previousValue) {
-                        elem[0].focus();
-                    }
-                });
-            }
-        };
-    }
-]);
-
-
-App.directive('movieFull', [
-    'moviesService',
-    'stateService',
-    function (moviesService, stateService) {
-        'use strict';
-
-        return {
-            restrict: 'E',
-            replace: 'true',
-            scope: true,
-            templateUrl: 'partials/movie-full.html',
-
-            link: function(scope, elem, attrs) {
-                scope.movie = {};
-
-                scope.close = function close() {
-                    stateService.setMoreState(false);
-                };
-
-                scope.$watch(stateService.getState, function(newState, oldState) {
-                    if (newState && newState.activeMovie) {
-                        scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);
-                    }
-                }, true);
-            }
-        };
-    }
-]);
-App.directive('movieTile', [
-    'moviesService',
-    'stateService',
-    function (moviesService, stateService) {
-        'use strict';
-
-        return {
-            restrict: 'E',
-            replace: 'true',
-            scope: {
-                movie: '='
-            },
-            templateUrl: 'partials/movie-tile.html',
-
-            link: function(scope, elem, attrs) {
-                scope.more = function more() {
-                    stateService.setMoreState(true);
-
-                    stateService.setActiveMovie(scope.movie.id);
-                };
-
-                scope.remove = function more(id) {
-                    moviesService.remove(id);
-                    moviesService.clearUrlParams();
-                };
-            }
-        };
-    }
-]);
 App.controller('compareCtrl', [
     '$scope',
     '$location',
@@ -210,6 +107,110 @@ App.controller('searchCtrl', [
         search.state = stateService.getState();
     }
 ]);
+App.directive('addMovie', [
+    'stateService',
+    function (stateService) {
+        'use strict';
+
+        return {
+            restrict: 'E',
+            replace: 'true',
+            scope: {
+                movie: '=',
+                id: '@'
+            },
+            bindToController: true,
+            templateUrl: 'partials/add-movie.html',
+
+            link: function(scope, elem, attrs) {
+
+                scope.add = function add() {
+                    stateService.setSearchState(true, scope.id);
+                    stateService.setLoadingState(scope.id, true);
+                };
+            }
+        };
+    }
+]);
+App.directive('hasFocusWhen', [
+    function () {
+        'use strict';
+
+        return {
+            restrict: 'A',
+            scope: {
+                when: '=hasFocusWhen'
+            },
+            link: function(scope, elem, attrs) {
+                scope.$watch("when", function(currentValue, previousValue) {
+                    if (currentValue === true && !previousValue) {
+                        elem[0].focus();
+                    }
+                });
+            }
+        };
+    }
+]);
+
+
+App.directive('movieFull', [
+    'moviesService',
+    'stateService',
+    function (moviesService, stateService) {
+        'use strict';
+
+        return {
+            restrict: 'E',
+            replace: 'true',
+            scope: true,
+            templateUrl: 'partials/movie-full.html',
+
+            link: function(scope, elem, attrs) {
+                scope.movie = {};
+
+                scope.close = function close() {
+                    stateService.setMoreState(false);
+                };
+
+                scope.$watch(stateService.getState, function(newState, oldState) {
+                    if (newState && newState.activeMovie) {
+                        scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);
+                    }
+                }, true);
+            }
+        };
+    }
+]);
+App.directive('movieTile', [
+    'moviesService',
+    'stateService',
+    function (moviesService, stateService) {
+        'use strict';
+
+        return {
+            restrict: 'E',
+            replace: 'true',
+            scope: {
+                movie: '='
+            },
+            templateUrl: 'partials/movie-tile.html',
+
+            link: function(scope, elem, attrs) {
+                scope.more = function more() {
+                    stateService.setMoreState(true);
+
+                    stateService.setActiveMovie(scope.movie.id);
+                };
+
+                scope.remove = function more(id) {
+                    moviesService.remove(id);
+                    moviesService.clearUrlParams();
+                    moviesService.clearBestMovie();
+                };
+            }
+        };
+    }
+]);
 App.filter('prettyTime', function () {
     'use strict';
 
@@ -294,7 +295,7 @@ App.service('moviesService', [
 
                 // record whether this movie is in the first or second position in our comparison
                 if (id !== null && id !== undefined) {
-                    pos = id;
+                    pos = parseInt(id, 10);
                 }
 
                 data.pos = pos;

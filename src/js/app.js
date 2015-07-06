@@ -1,2 +1,3 @@
-// App initialisation
-var App = angular.module('Fresht', []);
+/*global angular */
+
+var App = angular.module('Fresht', ['ngRoute']);

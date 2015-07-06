@@ -1,11 +1,14 @@
 App.directive('addMovie', [
     'stateService',
     function (stateService) {
+        'use strict';
+
         return {
             restrict: 'E',
             replace: 'true',
             scope: {
-                movie: '='
+                movie: '=',
+                id: '@'
             },
             bindToController: true,
             templateUrl: 'partials/add-movie.html',
@@ -17,6 +20,8 @@ App.directive('addMovie', [
                     // show loading spinner etc?
 
                     stateService.setSearchState(true);
+
+                    stateService.setLoadingState(scope.id, true);
                 };
             }
         };

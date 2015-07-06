@@ -1,19 +1,32 @@
 App.controller('compareCtrl', [
-    '$location',
     '$scope',
+    '$location',
+    '$q',
     'moviesService',
     'stateService',
-    function($location, $scope, moviesService, stateService) {
+    function($scope, $location, $q, moviesService, stateService) {
         'use strict';
 
         var compare = this;
 
         var loc = $location.search();
 
-        if (loc && loc.id0 && loc.id1) {
-            console.log('movie ids found', loc.id0, loc.id1);
-            //compare.movies[0] = moviesService.getMovieDataById($routeParams.id0);
-            //compare.movies[1] = moviesService.getMovieDataById($routeParams.id1);
+        if (loc && loc.movie1 && loc.movie2) {
+            stateService.setAllLoadingState();
+
+            $q.all([
+                moviesService.getMovieDataById(loc.movie1),
+                moviesService.getMovieDataById(loc.movie2)
+            ])
+            .then(function (movies) {
+                compare.movies[0] = movies[0];
+                compare.movies[1] = movies[1];
+
+                stateService.clearAllLoadingState();
+            },
+            function (err) {
+                console.log(err);
+            });
         }
 
         compare.movies = moviesService.getMovies();

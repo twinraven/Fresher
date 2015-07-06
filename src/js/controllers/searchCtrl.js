@@ -13,6 +13,8 @@ App.controller('searchCtrl', [
         search.clear = function clear() {
             search.results = null;
             search.title = '';
+
+            stateService.clearAllLoadingState();
         };
 
         search.start = function start() {

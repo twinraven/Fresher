@@ -2,6 +2,8 @@ App.directive('movieFull', [
     'moviesService',
     'stateService',
     function (moviesService, stateService) {
+        'use strict';
+
         return {
             restrict: 'E',
             replace: 'true',

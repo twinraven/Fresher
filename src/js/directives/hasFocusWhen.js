@@ -1,5 +1,7 @@
 App.directive('hasFocusWhen', [
     function () {
+        'use strict';
+
         return {
             restrict: 'A',
             scope: {
@@ -10,7 +12,7 @@ App.directive('hasFocusWhen', [
                     if (currentValue === true && !previousValue) {
                         elem[0].focus();
                     }
-                })
+                });
             }
         };
     }

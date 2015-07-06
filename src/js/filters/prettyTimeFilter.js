@@ -1,4 +1,6 @@
 App.filter('prettyTime', function () {
+    'use strict';
+
     return function(num) {
         if (num === undefined || num.length === 0) {
             return num;

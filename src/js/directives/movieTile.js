@@ -2,6 +2,8 @@ App.directive('movieTile', [
     'moviesService',
     'stateService',
     function (moviesService, stateService) {
+        'use strict';
+
         return {
             restrict: 'E',
             replace: 'true',
@@ -11,7 +13,7 @@ App.directive('movieTile', [
             templateUrl: 'partials/movie-tile.html',
 
             link: function(scope, elem, attrs) {
-                scope.more = function more(id) {
+                scope.more = function more() {
                     stateService.setMoreState(true);
 
                     stateService.setActiveMovie(scope.movie.id);
@@ -19,6 +21,7 @@ App.directive('movieTile', [
 
                 scope.remove = function more(id) {
                     moviesService.remove(id);
+                    moviesService.clearUrlParams();
                 };
             }
         };

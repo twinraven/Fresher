@@ -25,13 +25,13 @@
 </head>
 <body>
     <header ng-controller="headerCtrl as header">
-       <!--  <h1><span>Fresht</span></h1> -->
+       <h1><span>Fresht</span></h1>
 
         <button class="refresh" ng-click="header.reset()"><span>Refresh</span></button>
         <!-- <nav></nav> -->
     </header>
 
-    <main ng-view></main>
+    <div ng-view></div>
 
     <script src="js/libs/bower/angular/angular.min.js"></script>
     <script src="js/libs/bower/angular-route/angular-route.min.js"></script>

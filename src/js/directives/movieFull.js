@@ -18,7 +18,9 @@ App.directive('movieFull', [
                 };
 
                 scope.$watch(stateService.getState, function(newState, oldState) {
-                    scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);
+                    if (newState && newState.activeMovie) {
+                        scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);
+                    }
                 }, true);
             }
         };

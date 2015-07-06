@@ -1,23 +1,31 @@
 .movie-full {
     background: #fff;
+    background-clip: padding-box;
+    border: 10px solid transparent;
+    box-sizing: border-box;
     min-height: 100vh;
     opacity: 0;
+    padding: 10px 20px;
     pointer-events: none;
     position: fixed;
     right: 0;
     top: 0;
     transition: opacity 0.25s;
+    width: 100%;
     z-index: 20;
 
     &.is-active {
         opacity: 1;
-        pointer-events: none;
+        pointer-events: all;
     }
 
     @include respond-min($cols-4) {
+        border: none;
         opacity: 1;
+        padding: 20px 40px;
         transform: translateX(100%);
         transition: transform 0.25s;
+        width: 50%;
 
         &.is-active {
             transform: translateX(0);
@@ -25,7 +33,7 @@
     }
 }
 
-.movie-full-overlay {
+.overlay {
     background: #000;
     height: 100vh;
     left: 0;

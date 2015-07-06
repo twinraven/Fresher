@@ -5,6 +5,7 @@ App.service('stateService', [
         var methods = {},
             state = {
                 searchActive: false,
+                searchActiveId: null,
                 moreActive: false,
                 activeMovie: null,
                 loading: [false, false]
@@ -12,8 +13,13 @@ App.service('stateService', [
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        methods.setSearchState = function setSearchState(bool) {
+        methods.getState = function getState() {
+            return state;
+        };
+
+        methods.setSearchState = function setSearchState(bool, id) {
             state.searchActive = bool;
+            state.searchActiveId = id || null;
         };
 
         methods.setMoreState = function setMoreState(bool) {
@@ -22,10 +28,6 @@ App.service('stateService', [
 
         methods.setActiveMovie = function setActiveMovieId(id) {
             state.activeMovie = id;
-        };
-
-        methods.getState = function getState() {
-            return state;
         };
 
         methods.setLoadingState = function setLoadingState(id, bool) {

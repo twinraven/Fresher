@@ -1,0 +1,22 @@
+.movie-search {
+	background: #fff;
+	box-sizing: border-box;
+	display: none;
+	padding: 10px;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	z-index: 30;
+
+	&.is-active {
+		display: block;
+	}
+
+	@include respond-min($cols-4) {
+		top: 30vh;
+		max-width: #{$cols-3+'px'};
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}

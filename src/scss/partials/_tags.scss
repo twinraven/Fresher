@@ -2,6 +2,11 @@ body {
   background: #eee;
   color: #333;
   font-family: "Arvo", sans-serif;
+  text-align: center;
+
+  @include respond-min($cols-4) {
+  	text-align: left;
+  }
 }
 
 input, select, textarea {
@@ -10,4 +15,9 @@ input, select, textarea {
 
 a {
   transition: color 0.13s;
+}
+
+h1 {
+	margin: 0;
+  	margin-right: auto;
 }

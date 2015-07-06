@@ -16,11 +16,7 @@ App.directive('addMovie', [
             link: function(scope, elem, attrs) {
 
                 scope.add = function add() {
-                    // focus search field
-                    // show loading spinner etc?
-
-                    stateService.setSearchState(true);
-
+                    stateService.setSearchState(true, scope.id);
                     stateService.setLoadingState(scope.id, true);
                 };
             }

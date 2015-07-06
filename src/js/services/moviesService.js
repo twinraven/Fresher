@@ -17,6 +17,18 @@ App.service('moviesService', [
             return movies;
         };
 
+        methods.getMovieAtPos = function getMovieAtPos(pos) {
+            if (movies[0] && movies[0].pos == pos) {
+                return movies[0];
+            }
+
+            if (movies[1] && movies[1].pos == pos) {
+                return movies[1];
+            }
+
+            return null;
+        };
+
         methods.clearMovies = function clearMovies() {
             movies.length = 0;
         };
@@ -29,12 +41,22 @@ App.service('moviesService', [
             return filtered.length;
         };
 
-        methods.save = function save(data) {
+        methods.save = function save(data, id) {
+            var pos;
+
             if (methods.isMovieCached(data.id)) {
-                return;
+                alert('this movie is already in your comparison.\nPlease choose another');
+
+                return false;
             }
 
             if (movies.length < 2) {
+                if (id !== null && id !== undefined) {
+                    pos = id;
+                }
+
+                data.pos = pos;
+
                 movies[movies.length] = data;
 
                 if (movies.length === 2) {
@@ -44,6 +66,8 @@ App.service('moviesService', [
             } else {
                 alert('you already have 2 movies. Please remove 1 first');
             }
+
+            return true;
         };
 
         methods.addComparisonToUrl = function cacheMovieComparison() {

@@ -1,7 +1,7 @@
 <main class="main">
     <!-- <p class="intro">Quickly compare two movies by their Rotten Tomatoes<sup>TM</sup> ratings.</p> -->
 
-    <div class="movie-search" ng-controller="searchCtrl as search" ng-show="search.state.searchActive">
+    <div class="movie-search" ng-controller="searchCtrl as search" ng-class="{ 'is-active': search.state.searchActive }">
         <form>
             <div class="movie-search__field">
                 <input type="text" id="movie-title" name="movie-title" class="movie-title" ng-model="search.title" has-focus-when="search.state.searchActive">
@@ -17,7 +17,7 @@
             <li ng-repeat="movie in search.results">
                 <a href="javascript:;" ng-click="search.use($index)">
                     <h4 ng-bind="movie.title"></h4>
-                    <p class="cast" ng-bind="movie.cast"></p>
+                    <p class="cast"><span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p>
                 </a>
             </li>
         </ul>
@@ -29,8 +29,8 @@
 
     <div class="comparison" ng-controller="compareCtrl as compare">
         <div class="movie movie--0" ng-class="{ 'is-loading': compare.state.loading[0] }">
-            <add-movie movie="compare.movies[0]" id="0"></add-movie>
-            <movie-tile movie="compare.movies[0]"></movie-tile>
+            <add-movie movie="compare.getMovieAtPos(0)" id="0"></add-movie>
+            <movie-tile movie="compare.getMovieAtPos(0)"></movie-tile>
         </div>
 
         <p class="vs">
@@ -38,10 +38,11 @@
         </p>
 
         <div class="movie movie--1" ng-class="{ 'is-loading': compare.state.loading[1] }">
-            <add-movie movie="compare.movies[1]" id="1"></add-movie>
-            <movie-tile movie="compare.movies[1]"></movie-tile>
+            <add-movie movie="compare.getMovieAtPos(1)" id="1"></add-movie>
+            <movie-tile movie="compare.getMovieAtPos(1)"></movie-tile>
         </div>
 
-        <movie-full ng-show="compare.state.moreActive"></movie-full>
+        <movie-full ng-class="{ 'is-active': compare.state.moreActive }"></movie-full>
+        <span class="overlay" ng-class="{ 'is-active': compare.state.moreActive || compare.state.searchActive }"></span>
     </div>
 </main>

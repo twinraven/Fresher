@@ -32,6 +32,8 @@ App.controller('compareCtrl', [
             });
         }
 
+        compare.getMovieAtPos = moviesService.getMovieAtPos;
+
         compare.movies = moviesService.getMovies();
 
         compare.state = stateService.getState();
@@ -39,12 +41,17 @@ App.controller('compareCtrl', [
 ]);
 App.controller('headerCtrl', [
 	'moviesService',
-    function(moviesService) {
+	'stateService',
+    function(moviesService, stateService) {
         'use strict';
 
         this.reset = function reset() {
             moviesService.clearMovies();
             moviesService.clearUrlParams();
+
+            stateService.setMoreState(false);
+            stateService.setSearchState(false);
+            stateService.clearAllLoadingState();
         };
     }
 ]);
@@ -81,9 +88,9 @@ App.controller('searchCtrl', [
         };
 
         search.use = function use(index) {
-            moviesService.save(search.results[index]);
-
-            search.close();
+            if (moviesService.save(search.results[index], search.state.searchActiveId)) {
+                search.close();
+            }
         };
 
         search.close = function close() {
@@ -113,11 +120,7 @@ App.directive('addMovie', [
             link: function(scope, elem, attrs) {
 
                 scope.add = function add() {
-                    // focus search field
-                    // show loading spinner etc?
-
-                    stateService.setSearchState(true);
-
+                    stateService.setSearchState(true, scope.id);
                     stateService.setLoadingState(scope.id, true);
                 };
             }
@@ -165,7 +168,9 @@ App.directive('movieFull', [
                 };
 
                 scope.$watch(stateService.getState, function(newState, oldState) {
-                    scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);
+                    if (newState && newState.activeMovie) {
+                        scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);
+                    }
                 }, true);
             }
         };
@@ -245,6 +250,18 @@ App.service('moviesService', [
             return movies;
         };
 
+        methods.getMovieAtPos = function getMovieAtPos(pos) {
+            if (movies[0] && movies[0].pos == pos) {
+                return movies[0];
+            }
+
+            if (movies[1] && movies[1].pos == pos) {
+                return movies[1];
+            }
+
+            return null;
+        };
+
         methods.clearMovies = function clearMovies() {
             movies.length = 0;
         };
@@ -257,12 +274,22 @@ App.service('moviesService', [
             return filtered.length;
         };
 
-        methods.save = function save(data) {
+        methods.save = function save(data, id) {
+            var pos;
+
             if (methods.isMovieCached(data.id)) {
-                return;
+                alert('this movie is already in your comparison.\nPlease choose another');
+
+                return false;
             }
 
             if (movies.length < 2) {
+                if (id !== null && id !== undefined) {
+                    pos = id;
+                }
+
+                data.pos = pos;
+
                 movies[movies.length] = data;
 
                 if (movies.length === 2) {
@@ -272,6 +299,8 @@ App.service('moviesService', [
             } else {
                 alert('you already have 2 movies. Please remove 1 first');
             }
+
+            return true;
         };
 
         methods.addComparisonToUrl = function cacheMovieComparison() {
@@ -339,6 +368,7 @@ App.service('stateService', [
         var methods = {},
             state = {
                 searchActive: false,
+                searchActiveId: null,
                 moreActive: false,
                 activeMovie: null,
                 loading: [false, false]
@@ -346,8 +376,13 @@ App.service('stateService', [
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        methods.setSearchState = function setSearchState(bool) {
+        methods.getState = function getState() {
+            return state;
+        };
+
+        methods.setSearchState = function setSearchState(bool, id) {
             state.searchActive = bool;
+            state.searchActiveId = id || null;
         };
 
         methods.setMoreState = function setMoreState(bool) {
@@ -356,10 +391,6 @@ App.service('stateService', [
 
         methods.setActiveMovie = function setActiveMovieId(id) {
             state.activeMovie = id;
-        };
-
-        methods.getState = function getState() {
-            return state;
         };
 
         methods.setLoadingState = function setLoadingState(id, bool) {

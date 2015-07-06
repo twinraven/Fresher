@@ -31,9 +31,9 @@ App.controller('searchCtrl', [
         };
 
         search.use = function use(index) {
-            moviesService.save(search.results[index]);
-
-            search.close();
+            if (moviesService.save(search.results[index], search.state.searchActiveId)) {
+                search.close();
+            }
         };
 
         search.close = function close() {

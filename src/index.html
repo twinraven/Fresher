@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Angular</title>
+  <title>Fresht</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
   <meta name="theme-color" content="#e2da5c">
@@ -25,13 +25,13 @@
 </head>
 <body>
     <header ng-controller="headerCtrl as header">
-       <!--  <h1><span>Fresht</span></h1> -->
+       <h1><span>Fresht</span></h1>
 
         <button class="refresh" ng-click="header.reset()"><span>Refresh</span></button>
         <!-- <nav></nav> -->
     </header>
 
-    <main ng-view></main>
+    <div ng-view></div>
 
     <script src="js/libs/bower/angular/angular.min.js"></script>
     <script src="js/libs/bower/angular-route/angular-route.min.js"></script>
@@ -39,4 +39,5 @@
 
     <script src="apikey.js"></script>
     <script src="js/build.js"></script>
+</body>
 </html>

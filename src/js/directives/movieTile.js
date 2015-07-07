@@ -15,7 +15,6 @@ App.directive('movieTile', [
             link: function(scope, elem, attrs) {
                 scope.more = function more() {
                     stateService.setMoreState(true);
-
                     stateService.setActiveMovie(scope.movie.id);
                 };
 

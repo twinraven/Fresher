@@ -11,5 +11,7 @@
 
     <p>{{movie.synopsis}}</p>
 
-    <button class="movie-full__close" ng-click="close()">Close</button>
+    <a href="{{movie.links.alternate}}" target="_blank">View on Rotten Tomatoes website</a>
+
+    <button class="icon icon--close icon--corner" ng-click="close()"><span>Close</span></button>
 </div>

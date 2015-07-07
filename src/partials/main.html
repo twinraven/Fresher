@@ -3,26 +3,28 @@
 
     <div class="movie-search" ng-controller="searchCtrl as search" ng-class="{ 'is-active': search.state.searchActive }">
         <form>
-            <div class="movie-search__field">
-                <input type="text" id="movie-title" name="movie-title" class="movie-title" ng-model="search.title" has-focus-when="search.state.searchActive">
-            </div>
+            <div class="search-wrapper">
+                <div class="movie-search__field">
+                    <input type="text" id="movie-title" name="movie-title" class="movie-title" ng-model="search.title" has-focus-when="search.state.searchActive">
+                </div>
 
-            <div class="movie-search__field">
-                <button type="submit" ng-click="search.start()">Search</button>
-                <button class="movie-search__clear" ng-click="search.clear()">Clear search</button>
+                <div class="movie-search__field">
+                    <button type="submit" ng-click="search.start()">Search</button>
+                    <button class="icon icon--close icon--corner" ng-click="search.clear()"><span>Clear search</span></button>
+                </div>
             </div>
         </form>
 
         <ul class="movie-search__results" ng-show="search.results">
-            <li ng-repeat="movie in search.results">
+            <li class="search-result" ng-repeat="movie in search.results">
                 <a href="javascript:;" ng-click="search.use($index)">
-                    <h4 ng-bind="movie.title"></h4>
-                    <p class="cast"><span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p>
+                    <h4 class="search-result__title" ng-bind="movie.title + ' (' + movie.year + ')'"></h4>
+                    <p class="search-result__cast"><span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p>
                 </a>
             </li>
         </ul>
 
-        <button class="movie-search__close" ng-click="search.close()">Close</button>
+        <button class="icon icon--close icon--corner" ng-click="search.close()"><span>Close</span></button>
     </div>
 
     <div class="comparison" ng-controller="compareCtrl as compare">

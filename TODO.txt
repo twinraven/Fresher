@@ -1,8 +1,4 @@
 TODO:
 
-- tidy code, reorg
-
-- styles, all the styles
-- add gulp build tool, and watcher
-- update URL when a comparison is made (2 movies selected)
-- fix routing?
+- styles prettification
+- wire up real api

@@ -10,7 +10,7 @@
 
                 <div class="movie-search__field">
                     <button type="submit" ng-click="search.start()">Search</button>
-                    <button class="icon icon--close icon--corner" ng-click="search.clear()"><span>Clear search</span></button>
+                    <button class="icon icon--close icon--corner" ng-click="search.clear()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></button>
                 </div>
             </div>
         </form>
@@ -24,7 +24,7 @@
             </li>
         </ul>
 
-        <button class="icon icon--close icon--corner" ng-click="search.close()"><span>Close</span></button>
+        <button class="icon icon--close icon--corner" ng-click="search.close()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Close</span></button>
     </div>
 
     <div class="comparison" ng-controller="compareCtrl as compare">

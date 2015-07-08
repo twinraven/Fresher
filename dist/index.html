@@ -30,7 +30,7 @@
     <header ng-controller="headerCtrl as header">
        <h1><span>Fresher</span></h1>
 
-        <button class="button icon icon--corner" ng-click="header.reset()"><svg class="icon-svg svg-icon-refresh"><use xlink:href="#icon-refresh"></use></svg><span>Refresh</span></button>
+        <button class="button icon icon--corner" ng-click="header.reset()" ng-show="header.movies.length"><svg class="icon-svg svg-icon-refresh"><use xlink:href="#icon-refresh"></use></svg><span>Refresh</span></button>
         <!-- <nav></nav> -->
     </header>
 

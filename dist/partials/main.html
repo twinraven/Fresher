@@ -3,13 +3,13 @@
 
     <div class="movie-search" ng-controller="searchCtrl as search" ng-class="{ 'is-active': search.state.searchActive }">
         <form>
-            <h2 class="movie-search__title">Search for a movie</h2>
+            <h2 class="movie-search__title">Search</h2>
 
             <div class="search-wrapper">
                 <div class="movie-search__field">
-                    <a href="javascript:;" class="button icon icon--close icon--corner" ng-click="search.clear()" ng-show="search.title"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></a>
+                    <a href="javascript:;" class="button icon icon--close icon--small icon--corner" ng-click="search.clear()" ng-show="search.title"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></a>
 
-                    <input type="text" id="movie-title" name="movie-title" class="movie-search__title" ng-model="search.title" has-focus-when="search.state.searchActive">
+                    <input type="text" id="movie-title" name="movie-title" class="movie-search__text" ng-model="search.title" has-focus-when="search.state.searchActive">
                 </div>
 
                 <div class="movie-search__field movie-search__field--button">

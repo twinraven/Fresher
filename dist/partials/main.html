@@ -7,9 +7,9 @@
 
             <div class="search-wrapper">
                 <div class="movie-search__field">
-                    <a href="javascript:;" class="button icon icon--close icon--small icon--corner" ng-click="search.clear()" ng-show="search.title"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></a>
+                    <a href="javascript:;" class="button icon icon--close icon--small icon--corner" ng-click="search.clear()" ng-show="search.text"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></a>
 
-                    <input type="text" id="movie-title" name="movie-title" class="movie-search__text" ng-model="search.title" has-focus-when="search.state.searchActive">
+                    <input type="text" id="movie-text" name="movie-text" class="movie-search__text" ng-model="search.text" has-focus-when="search.state.searchActive">
                 </div>
 
                 <div class="movie-search__field movie-search__field--button">
@@ -18,7 +18,7 @@
             </div>
         </form>
 
-        <ul class="movie-search__results" ng-show="search.results">
+        <ul class="movie-search__results" ng-show="search.results && search.text">
             <li class="search-result" ng-repeat="movie in search.results">
                 <a href="javascript:;" ng-click="search.use($index)">
                     <h4 class="search-result__title" ng-bind="movie.title + ' (' + movie.year + ')'"></h4>

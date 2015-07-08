@@ -12,12 +12,12 @@ App.controller('searchCtrl', [
 
         search.clear = function clear() {
             search.results = null;
-            search.title = '';
+            search.text = '';
         };
 
         search.start = function start() {
-            if (search.title) {
-                var searchQuery = moviesService.search(search.title);
+            if (search.text) {
+                var searchQuery = moviesService.search(search.text);
 
                 searchQuery.success(function (data) {
                     search.results = data.movies;

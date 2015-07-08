@@ -2,7 +2,7 @@
 	background: #fff;
 	box-sizing: border-box;
 	display: none;
-	padding: 50px 10px 0;
+	padding: 40px 10px 0;
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -14,10 +14,18 @@
 	}
 
 	@include respond-min($cols-4) {
-		top: 20px;
+		top: 10px;
 		max-width: #{$cols-3+'px'};
 		left: 50%;
 		transform: translateX(-50%);
+	}
+}
+
+.movie-search__title {
+	margin: 0 0 10px;
+
+	@include respond-min($cols-4) {
+		border-right: 0;
 	}
 }
 
@@ -45,12 +53,35 @@
 	}
 }
 
+.search-wrapper {
+	position: relative;
+
+    @include respond-min($cols-4) {
+    	display: flex;
+    }
+}
+
+.movie-search__field {
+
+	@include respond-min($cols-4) {
+		flex: 1 0 auto;
+		position: relative;
+	}
+}
+.movie-search__field--button {
+	@include respond-min($cols-4) {
+		flex: 0 1 auto;
+	}
+}
+
 .search-result__title {
+	box-sizing: border-box;
 	font-size: 15px;
 	margin: 0 0 7px;
-	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
 }
 
 .search-result__cast {

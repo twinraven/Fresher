@@ -48,13 +48,13 @@ gulp.task('connect', function() {
 gulp.task('images', function() {
   return gulp.src('src/images/**/*')
     .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist/images'));
 });
 
 
 gulp.task('copy-to-dist', function() {
   return gulp.src(['src/index.html', 'src/favicon*.ico', 'src/manifest.json', 'src/fonts', 'src/partials'])
-    .pipe(gulp.dest('dist/images'));
+    .pipe(gulp.dest('dist'));
 });
 
 

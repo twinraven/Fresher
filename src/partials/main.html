@@ -3,14 +3,17 @@
 
     <div class="movie-search" ng-controller="searchCtrl as search" ng-class="{ 'is-active': search.state.searchActive }">
         <form>
+            <h2 class="movie-search__title">Search for a movie</h2>
+
             <div class="search-wrapper">
                 <div class="movie-search__field">
-                    <input type="text" id="movie-title" name="movie-title" class="movie-title" ng-model="search.title" has-focus-when="search.state.searchActive">
+                    <a href="javascript:;" class="button icon icon--close icon--corner" ng-click="search.clear()" ng-show="search.title"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></a>
+
+                    <input type="text" id="movie-title" name="movie-title" class="movie-search__title" ng-model="search.title" has-focus-when="search.state.searchActive">
                 </div>
 
-                <div class="movie-search__field">
-                    <button type="submit" ng-click="search.start()">Search</button>
-                    <button class="icon icon--close icon--corner" ng-click="search.clear()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></button>
+                <div class="movie-search__field movie-search__field--button">
+                    <button class="button button--large button--right button--search" type="submit" ng-click="search.start()">Search</button>
                 </div>
             </div>
         </form>
@@ -24,22 +27,24 @@
             </li>
         </ul>
 
-        <button class="icon icon--close icon--corner" ng-click="search.close()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Close</span></button>
+        <button class="button icon icon--close icon--corner" ng-click="search.close()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Close</span></button>
     </div>
 
     <div class="comparison" ng-controller="compareCtrl as compare">
         <div class="movie movie--0" ng-class="{ 'is-loading': compare.state.loading[0] }">
-            <add-movie movie="compare.getMovieAtPos(0)" id="0"></add-movie>
-            <movie-tile movie="compare.getMovieAtPos(0)" ng-class="{ 'is-best': compare.state.bestMovie === 0 }"></movie-tile>
+            <div class="movie__inner">
+                <add-movie movie="compare.getMovieAtPos(0)" id="0"></add-movie>
+                <movie-tile movie="compare.getMovieAtPos(0)" ng-class="{ 'is-best': compare.state.bestMovie === 0 }"></movie-tile>
+            </div>
         </div>
 
-        <p class="vs">
-            <abbr title="Versus">Vs.</abbr>
-        </p>
+        <p class="vs">Vs.</p>
 
         <div class="movie movie--1" ng-class="{ 'is-loading': compare.state.loading[1] }">
-            <add-movie movie="compare.getMovieAtPos(1)" id="1"></add-movie>
-            <movie-tile movie="compare.getMovieAtPos(1)" ng-class="{ 'is-best': compare.state.bestMovie === 1 }"></movie-tile>
+            <div class="movie__inner">
+                <add-movie movie="compare.getMovieAtPos(1)" id="1"></add-movie>
+                <movie-tile movie="compare.getMovieAtPos(1)" ng-class="{ 'is-best': compare.state.bestMovie === 1 }"></movie-tile>
+            </div>
         </div>
 
         <movie-full ng-class="{ 'is-active': compare.state.moreActive }"></movie-full>

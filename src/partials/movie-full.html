@@ -11,7 +11,10 @@
 
     <p>{{movie.synopsis}}</p>
 
-    <a href="{{movie.links.alternate}}" target="_blank">View on Rotten Tomatoes website</a>
+    <a class="icon icon--with-text icon--border" href="{{movie.links.alternate}}" target="_blank">
+        <svg class="icon-svg svg-icon-open"><use xlink:href="#icon-open"></use></svg>
+        <span>View on Rotten Tomatoes</span>
+    </a>
 
-    <button class="icon icon--close icon--corner" ng-click="close()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Close</span></button>
+    <button class="button icon icon--close icon--corner" ng-click="close()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Close</span></button>
 </div>

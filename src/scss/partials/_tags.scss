@@ -18,5 +18,9 @@ a {
 }
 
 main {
-    padding-top: 40px;
+    padding-top: 75px;
+
+    @include respond-min($cols-4) {
+        padding-top: 0;
+    }
 }

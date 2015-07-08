@@ -1,5 +1,5 @@
 .comparison {
-    min-height: 85vh;
+    min-height: 72vh;
     max-width: 1200px;
     margin: 0 auto;
 
@@ -13,11 +13,17 @@
     box-sizing: border-box;
     display: flex;
     flex: 5 0 0;
-    padding: 10px;
+    padding: 10px 20px;
 
     @include respond-min($cols-4) {
         padding: 20px;
     }
+}
+
+.movie__inner {
+    display: flex;
+    margin: auto;
+    width: 100%;
 }
 
 .vs {
@@ -26,24 +32,34 @@
     font-weight: bold;
     letter-spacing: 0.1em;
     margin: auto;
-    padding: 2em 0;
+    padding: 10px 0;
     text-transform: uppercase;
+
+    @include respond-min($cols-4) {
+        padding: 2em 0;
+    }
 }
 
 .add-movie {
-    background: #ddd;
+    background: #fff;
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(232,232,232,1) 100%);
     -webkit-appearance: none;
     appearance: none;
     border: 1px solid #ddd;
     border-radius: 3px;
     color: #555;
-    height: 10em;
-    margin: auto;
+    font-size: 30px;
+    font-weight: normal;
+    height: 165px;
+    margin: 20px 20px;
     text-align: center;
     width: 100%;
 
     .is-loading & {
-        background: transparent;
+        background-color: #fff;
+        background-image: url(../images/loading.gif) !important;
+        background-repeat: no-repeat;
+        background-position: center center;
         color: transparent;
     }
 
@@ -53,24 +69,33 @@
         margin: 6px auto 0;
     }
 
+    &:hover,
+    &:focus {
+        background-image: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(232,232,232,1) 100%);
+    }
+
     @include respond-min($cols-4) {
-        height: 13em;
+        margin: auto;
         width: 30vw;
     }
 }
 
 .movie-tile {
     background: #fff;
+    background: linear-gradient(to top, rgba(232,232,232,1) 0%, rgba(255,255,255,1) 100%);
+    border-radius: 2px;
     box-sizing: border-box;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    box-shadow: 0 0 90px rgba(0,0,0,0.2);
     padding: 13px 15px 10px;
     position: relative;
     flex: 1;
     margin: auto;
     text-align: left;
+    transition: all 0.2s;
 
     &.is-best {
         background: #8f8;
+        background: linear-gradient(to bottom, #c5f7aa 0%,#e9ffce 100%);
     }
 
     .icon--corner {
@@ -89,7 +114,7 @@
 
 .movie-tile__img {
     float: left;
-    margin: 2px 12px 16px 0;
+    margin: 2px 12px 13px 0;
 
     @include respond-min($cols-4) {
         margin: 2px 15px 30px 0;

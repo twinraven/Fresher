@@ -1,0 +1,13 @@
+<div class="movie-tile" ng-show="movie">
+    <h2 class="movie-tile__title">{{ movie.title }} ({{ movie.year }})</h2>
+
+    <img ng-src="{{ movie.posters.thumbnail }}" class="movie-tile__img">
+
+    <div class="movie-tile__rating">
+        <p>Rotten Tomatoes Rating: {{ movie.ratings.critics_score }}%</p>
+        <p>etc</p>
+    </div>
+
+    <button class="button icon icon--more icon--with-text" ng-click="more(movie.id)"><svg class="icon-svg svg-icon-open"><use xlink:href="#icon-open"></use></svg><span>More</span></button>
+    <button class="button icon icon--close icon--corner" ng-click="remove(movie.id)"><svg class="icon-svg svg-icon-bin"><use xlink:href="#icon-bin"></use></svg><span>Remove</span></button>
+</div>

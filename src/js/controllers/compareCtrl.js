@@ -26,6 +26,9 @@ App.controller('compareCtrl', [
             },
             function (err) {
                 console.log(err);
+
+                compare.movies[0] = {};
+                compare.movies[1] = {};
             });
         }
 
@@ -33,6 +36,7 @@ App.controller('compareCtrl', [
             stateService.clearAllLoadingState();
             stateService.setSearchState(false);
             stateService.setMoreState(false);
+
         };
 
         compare.getMovieAtPos = moviesService.getMovieAtPos;

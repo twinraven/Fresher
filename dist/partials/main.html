@@ -1,0 +1,54 @@
+<main class="main">
+    <p class="intro">Quickly compare two movies by their Rotten Tomatoes<sup>TM</sup> ratings.</p>
+
+    <div class="movie-search" ng-controller="searchCtrl as search" ng-class="{ 'is-active': search.state.searchActive }">
+        <form>
+            <h2 class="movie-search__title">Search for a movie</h2>
+
+            <div class="search-wrapper">
+                <div class="movie-search__field">
+                    <a href="javascript:;" class="button icon icon--close icon--corner" ng-click="search.clear()" ng-show="search.title"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></a>
+
+                    <input type="text" id="movie-title" name="movie-title" class="movie-search__title" ng-model="search.title" has-focus-when="search.state.searchActive">
+                </div>
+
+                <div class="movie-search__field movie-search__field--button">
+                    <button class="button button--large button--right button--search" type="submit" ng-click="search.start()">Search</button>
+                </div>
+            </div>
+        </form>
+
+        <ul class="movie-search__results" ng-show="search.results">
+            <li class="search-result" ng-repeat="movie in search.results">
+                <a href="javascript:;" ng-click="search.use($index)">
+                    <h4 class="search-result__title" ng-bind="movie.title + ' (' + movie.year + ')'"></h4>
+                    <p class="search-result__cast"><span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p>
+                </a>
+            </li>
+        </ul>
+
+        <button class="button icon icon--close icon--corner" ng-click="search.close()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Close</span></button>
+    </div>
+
+    <div class="comparison" ng-controller="compareCtrl as compare">
+        <div class="movie movie--0" ng-class="{ 'is-loading': compare.state.loading[0] }">
+            <div class="movie__inner">
+                <add-movie movie="compare.getMovieAtPos(0)" id="0"></add-movie>
+                <movie-tile movie="compare.getMovieAtPos(0)" ng-class="{ 'is-best': compare.state.bestMovie === 0 }"></movie-tile>
+            </div>
+        </div>
+
+        <p class="vs">Vs.</p>
+
+        <div class="movie movie--1" ng-class="{ 'is-loading': compare.state.loading[1] }">
+            <div class="movie__inner">
+                <add-movie movie="compare.getMovieAtPos(1)" id="1"></add-movie>
+                <movie-tile movie="compare.getMovieAtPos(1)" ng-class="{ 'is-best': compare.state.bestMovie === 1 }"></movie-tile>
+            </div>
+        </div>
+
+        <movie-full ng-class="{ 'is-active': compare.state.moreActive }"></movie-full>
+
+        <span class="overlay" ng-click="compare.closeOverlay()" ng-class="{ 'is-active': compare.state.moreActive || compare.state.searchActive }"></span>
+    </div>
+</main>

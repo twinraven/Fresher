@@ -1,5 +1,9 @@
+html, body {
+    height: 100%;
+}
+
 body {
-    background: #eee;
+    background-image: linear-gradient(to bottom, #FCD3D3 0%, #D1FFDA 100%);
     color: #333;
     font-family: Arial, sans-serif;
     text-align: center;
@@ -18,7 +22,7 @@ a {
 }
 
 main {
-    padding-top: 75px;
+    padding-top: 70px;
 
     @include respond-min($cols-4) {
         padding-top: 0;

@@ -1,10 +1,13 @@
 App.controller('headerCtrl', [
+    '$location',
 	'moviesService',
 	'stateService',
-    function(moviesService, stateService) {
+    function($location, moviesService, stateService) {
         'use strict';
 
-        this.reset = function reset() {
+        var header = this;
+
+        header.reset = function reset() {
             moviesService.clearMovies();
             moviesService.clearUrlParams();
 
@@ -12,5 +15,9 @@ App.controller('headerCtrl', [
             stateService.setSearchState(false);
             stateService.clearAllLoadingState();
         };
+
+        var loc = $location.search();
+
+        header.movies = moviesService.getMovies();
     }
 ]);

@@ -7,73 +7,6 @@
     fill: currentColor;
 }
 
-
-
-/* @font-face {
-    font-family: 'icomoon';
-    src:url('fonts/icomoon.eot?-bhsf3i');
-    src:url('fonts/icomoon.eot?#iefix-bhsf3i') format('embedded-opentype'),
-        url('fonts/icomoon.ttf?-bhsf3i') format('truetype'),
-        url('fonts/icomoon.woff?-bhsf3i') format('woff'),
-        url('fonts/icomoon.svg?-bhsf3i#icomoon') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-[class^="icon-"], [class*=" icon-"] {
-    font-family: 'icomoon';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    Better Font Rendering ===========
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-settings:before {
-    content: "\e023";
-}
-.icon-stack:before {
-    content: "\e033";
-}
-.icon-circle-plus:before {
-    content: "\e040";
-}
-.icon-circle-minus:before {
-    content: "\e041";
-}
-.icon-circle-cross:before {
-    content: "\e043";
-}
-.icon-fast-forward:before {
-    content: "\e055";
-}
-.icon-refresh:before {
-    content: "\e058";
-}
-.icon-bin:before {
-    content: "\e109";
-}
-.icon-plus:before {
-    content: "\e114";
-}
-.icon-minus:before {
-    content: "\e115";
-}
-.icon-cross:before {
-    content: "\e117";
-}
-.icon-menu:before {
-    content: "\e120";
-}
-.icon-open:before {
-    content: "\e128";
-} */
-
 // Google fonts usage ~~~~~~~~~~~~~~~~~~~~~~~
 
 body,
@@ -84,12 +17,13 @@ button {
     font-family: $font-body;
 }
 
-h1 {
+h1,
+.movie-search__title,
+.add-movie {
     font-family: $font-cursive;
-    font-size: 46px;
 }
 
-h2, h3, h4 {
+h4, h5, h6 {
     letter-spacing: -0.02em;
 }
 

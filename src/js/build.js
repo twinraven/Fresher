@@ -1,112 +1,6 @@
 /*global angular */
 
 var App = angular.module('Fresher', ['ngRoute']);
-App.controller('compareCtrl', [
-    '$scope',
-    '$location',
-    '$q',
-    'moviesService',
-    'stateService',
-    function($scope, $location, $q, moviesService, stateService) {
-        'use strict';
-
-        var compare = this;
-
-        var loc = $location.search();
-
-        if (loc && loc.movie1 && loc.movie2) {
-            stateService.setAllLoadingState();
-
-            $q.all([
-                moviesService.getMovieDataById(loc.movie1),
-                moviesService.getMovieDataById(loc.movie2)
-            ])
-            .then(function (movies) {
-                compare.movies[0] = movies[0];
-                compare.movies[1] = movies[1];
-
-                stateService.clearAllLoadingState();
-            },
-            function (err) {
-                console.log(err);
-            });
-        }
-
-        compare.closeOverlay = function closeOverlay() {
-            stateService.clearAllLoadingState();
-            stateService.setSearchState(false);
-            stateService.setMoreState(false);
-        };
-
-        compare.getMovieAtPos = moviesService.getMovieAtPos;
-
-        compare.movies = moviesService.getMovies();
-
-        compare.state = stateService.getState();
-    }
-]);
-App.controller('headerCtrl', [
-	'moviesService',
-	'stateService',
-    function(moviesService, stateService) {
-        'use strict';
-
-        this.reset = function reset() {
-            moviesService.clearMovies();
-            moviesService.clearUrlParams();
-
-            stateService.setMoreState(false);
-            stateService.setSearchState(false);
-            stateService.clearAllLoadingState();
-        };
-    }
-]);
-App.controller('searchCtrl', [
-    '$scope',
-    '$timeout',
-    'moviesService',
-    'stateService',
-    function($scope, $timeout, moviesService, stateService) {
-        'use strict';
-
-        var search = this;
-
-        search.results = null;
-
-        search.clear = function clear() {
-            search.results = null;
-            search.title = '';
-        };
-
-        search.start = function start() {
-            if (search.title) {
-                var searchQuery = moviesService.search(search.title);
-
-                searchQuery.success(function (data) {
-                    search.results = data.movies;
-                })
-                .error(function () {
-                    console.log('error');
-                });
-            }
-        };
-
-        search.use = function use(index) {
-            if (moviesService.save(search.results[index], search.state.searchActiveId)) {
-                search.close();
-            }
-        };
-
-        search.close = function close() {
-            stateService.clearAllLoadingState();
-            stateService.setSearchState(false);
-
-            search.clear();
-        };
-
-        search.state = stateService.getState();
-    }
-]);
 App.directive('addMovie', [
     'stateService',
     function (stateService) {
@@ -210,6 +104,123 @@ App.directive('movieTile', [
         };
     }
 ]);
+App.controller('compareCtrl', [
+    '$scope',
+    '$location',
+    '$q',
+    'moviesService',
+    'stateService',
+    function($scope, $location, $q, moviesService, stateService) {
+        'use strict';
+
+        var compare = this;
+
+        var loc = $location.search();
+
+        if (loc && loc.movie1 && loc.movie2) {
+            stateService.setAllLoadingState();
+
+            $q.all([
+                moviesService.getMovieDataById(loc.movie1),
+                moviesService.getMovieDataById(loc.movie2)
+            ])
+            .then(function (movies) {
+                compare.movies[0] = movies[0];
+                compare.movies[1] = movies[1];
+
+                stateService.clearAllLoadingState();
+            },
+            function (err) {
+                console.log(err);
+
+                compare.movies[0] = {};
+                compare.movies[1] = {};
+            });
+        }
+
+        compare.closeOverlay = function closeOverlay() {
+            stateService.clearAllLoadingState();
+            stateService.setSearchState(false);
+            stateService.setMoreState(false);
+
+        };
+
+        compare.getMovieAtPos = moviesService.getMovieAtPos;
+
+        compare.movies = moviesService.getMovies();
+
+        compare.state = stateService.getState();
+    }
+]);
+App.controller('headerCtrl', [
+    '$location',
+	'moviesService',
+	'stateService',
+    function($location, moviesService, stateService) {
+        'use strict';
+
+        var header = this;
+
+        header.reset = function reset() {
+            moviesService.clearMovies();
+            moviesService.clearUrlParams();
+
+            stateService.setMoreState(false);
+            stateService.setSearchState(false);
+            stateService.clearAllLoadingState();
+        };
+
+        var loc = $location.search();
+
+        header.movies = moviesService.getMovies();
+    }
+]);
+App.controller('searchCtrl', [
+    '$scope',
+    '$timeout',
+    'moviesService',
+    'stateService',
+    function($scope, $timeout, moviesService, stateService) {
+        'use strict';
+
+        var search = this;
+
+        search.results = null;
+
+        search.clear = function clear() {
+            search.results = null;
+            search.title = '';
+        };
+
+        search.start = function start() {
+            if (search.title) {
+                var searchQuery = moviesService.search(search.title);
+
+                searchQuery.success(function (data) {
+                    search.results = data.movies;
+                })
+                .error(function () {
+                    console.log('error');
+                });
+            }
+        };
+
+        search.use = function use(index) {
+            if (moviesService.save(search.results[index], search.state.searchActiveId)) {
+                search.close();
+            }
+        };
+
+        search.close = function close() {
+            stateService.clearAllLoadingState();
+            stateService.setSearchState(false);
+
+            search.clear();
+        };
+
+        search.state = stateService.getState();
+    }
+]);
 App.filter('prettyTime', function () {
     'use strict';
 
@@ -226,6 +237,16 @@ App.filter('prettyTime', function () {
         }
     };
 });
+App.config(['$routeProvider', function($routeProvider) {
+	'use strict';
+
+    $routeProvider.when('/', {
+    	templateUrl: 'partials/main.html',
+    	reloadOnSearch: false
+    });
+
+    $routeProvider.otherwise({redirectTo: '/'});
+}]);
 /*global APIKEY */
 
 App.service('moviesService', [
@@ -441,14 +462,3 @@ App.service('stateService', [
         return methods;
     }
 ]);
-
-App.config(['$routeProvider', function($routeProvider) {
-	'use strict';
-
-    $routeProvider.when('/', {
-    	templateUrl: 'partials/main.html',
-    	reloadOnSearch: false
-    });
-
-    $routeProvider.otherwise({redirectTo: '/'});
-}]);

@@ -18,14 +18,6 @@
     }
 }
 
-.is-loading {
-  background: url(../images/loading.gif) no-repeat center center;
-
-  &.is-new {
-    background: none;
-  }
-}
-
 .is-disabled {
   opacity: 0.3 !important;
 }

@@ -1,12 +1,15 @@
 .movie-search {
 	background: #fff;
+	background: linear-gradient(to bottom, rgba(232,232,232,1) 0%, rgba(255,255,255,1) 100%);
+	border-radius: 2px;
+	box-shadow: 0 8px 70px rgba(0,0,0,0.3);
 	box-sizing: border-box;
 	display: none;
 	padding: 40px 10px 0;
 	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
+	left: 10px;
+	top: 10px;
+	width: calc(100% - 20px);
 	z-index: 30;
 
 	&.is-active {
@@ -22,8 +25,12 @@
 }
 
 .movie-search__title {
-	margin: 0 0 10px;
+	font-size: 42px;
+	margin: 0;
+	text-align: center;
+}
 
+.movie-search__text {
 	@include respond-min($cols-4) {
 		border-right: 0;
 	}
@@ -39,6 +46,7 @@
 .search-result {
 	border-top: 1px solid #aaa;
 	font-size: 13px;
+	transition: background 0.2s;
 
 	&:hover,
 	&:focus {

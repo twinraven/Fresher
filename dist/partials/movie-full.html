@@ -1,0 +1,20 @@
+<div class="movie-full">
+    <h2 class="movie-full__title">{{movie.title}} ({{movie.year}})</h2>
+    <p><strong>Rating</strong>: {{movie.mpaa_rating}}</p>
+    <p><strong>Runtime</strong>: {{movie.runtime | prettyTime}}</p>
+    <p><strong>Critic Score</strong>: {{movie.ratings.critics_score}}% ({{movie.ratings.critics_rating}})</p>
+    <p><strong>Audience Score</strong>: {{movie.ratings.audience_score}}% ({{movie.ratings.audience_rating}})</p>
+    <p><strong>Cast</strong>: <span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p>
+    <p>{{movie.critics_consensus}}</p>
+
+    <hr>
+
+    <p>{{movie.synopsis}}</p>
+
+    <a class="icon icon--with-text icon--border" href="{{movie.links.alternate}}" target="_blank">
+        <svg class="icon-svg svg-icon-open"><use xlink:href="#icon-open"></use></svg>
+        <span>View on Rotten Tomatoes</span>
+    </a>
+
+    <button class="button icon icon--close icon--corner" ng-click="close()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Close</span></button>
+</div>

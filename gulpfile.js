@@ -18,7 +18,7 @@ gulp.task('styles', function() {
     return sass('src/scss/main.scss', { style: 'compressed' })
         .pipe(autoprefixer('last 2 version'))
         .pipe(gulp.dest('src/css'))
-        .pipe(rename({suffix: '.min'}))
+        //.pipe(rename({suffix: '.min'}))
         .pipe(minifycss())
         .pipe(gulp.dest('dist/css'))
         .pipe(connect.reload());
@@ -31,7 +31,7 @@ gulp.task('scripts', function() {
         .pipe(jshint.reporter('default'))
         .pipe(concat('build.js'))
         .pipe(gulp.dest('src/js'))
-        .pipe(rename({suffix: '.min'}))
+        //.pipe(rename({suffix: '.min'}))
         .pipe(uglify())
         .pipe(gulp.dest('dist/js'))
         .pipe(connect.reload());
@@ -46,20 +46,34 @@ gulp.task('connect', function() {
 
 
 gulp.task('images', function() {
-  return gulp.src('src/images/**/*')
-    .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-    .pipe(gulp.dest('dist/images'));
+    return gulp.src('src/images/**/*')
+        .pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
+        .pipe(gulp.dest('dist/images'));
 });
 
 
 gulp.task('copy-to-dist', function() {
-  return gulp.src(['src/index.html', 'src/favicon*.ico', 'src/manifest.json', 'src/fonts', 'src/partials'])
-    .pipe(gulp.dest('dist'));
+    // root-based files
+    gulp.src(['src/index.html', 'src/favicon*.ico', 'src/manifest.json', 'src/apikey.js'])
+        .pipe(gulp.dest('dist'));
+    // fonts
+    gulp.src(['src/fonts/*'])
+        .pipe(gulp.dest('dist/fonts'));
+    // angular JS partials
+    gulp.src(['src/partials/**/*'])
+        .pipe(gulp.dest('dist/partials'));
+    // JS dependency libs
+    gulp.src(['src/js/libs/**/*'])
+        .pipe(gulp.dest('dist/js/libs'));
+
+    //TEMP - copying demo JSON files
+    gulp.src(['src/json/**/*'])
+        .pipe(gulp.dest('dist/json'));
 });
 
 
 gulp.task('clean', function(cb) {
-    del(['dist/css', 'dist/js', 'dist/images'], cb);
+    del(['dist/css', 'dist/js', 'dist/images', 'dist/partials', 'dist/fonts'], cb);
 });
 
 
@@ -79,13 +93,10 @@ gulp.task('server', ['connect', 'watch']);
 
 gulp.task('watch', function() {
 
-  // Watch .scss files
-  gulp.watch('src/scss/**/*.scss', ['styles']);
+    // Watch .scss files
+    gulp.watch('src/scss/**/*.scss', ['styles']);
 
-  // Watch .js files
-  gulp.watch('src/js/**/*.js', ['scripts']);
-
-  // Watch image files
-  gulp.watch('src/images/**/*', ['images']);
+    // Watch .js files
+    gulp.watch('src/js/**/*.js', ['scripts']);
 
 });

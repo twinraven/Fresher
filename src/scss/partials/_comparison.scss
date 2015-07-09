@@ -1,6 +1,6 @@
 .comparison {
     min-height: 72vh;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
 
     @include respond-min($cols-4) {
@@ -75,7 +75,7 @@
 
     @include respond-min($cols-4) {
         margin: auto;
-        width: 30vw;
+        width: 330px;
     }
 }
 

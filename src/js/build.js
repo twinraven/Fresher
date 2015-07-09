@@ -221,6 +221,12 @@ App.directive('movieTile', [
                     moviesService.clearUrlParams();
                     moviesService.clearBestMovie();
                 };
+
+                scope.getGraphicUrl = function getGraphicUrl(rating) {
+                    return 'images/icons/icon-' + moviesService.getRatingFormatted(rating) + '.png';
+                };
+
+                scope.getRatingFormatted = moviesService.getRatingFormatted;
             }
         };
     }
@@ -241,6 +247,16 @@ App.filter('prettyTime', function () {
         }
     };
 });
+App.config(['$routeProvider', function($routeProvider) {
+	'use strict';
+
+    $routeProvider.when('/', {
+    	templateUrl: 'partials/main.html',
+    	reloadOnSearch: false
+    });
+
+    $routeProvider.otherwise({redirectTo: '/'});
+}]);
 /*global APIKEY */
 
 App.service('moviesService', [
@@ -388,6 +404,22 @@ App.service('moviesService', [
             return $http.jsonp(movieUrl);
         };
 
+        methods.getRatingFormatted = function getRatingFormatted(rating) {
+            var certified = 'certified';
+            var fresh = 'fresh';
+            var rotten = 'rotten';
+
+            if (rating === 'Certified Fresh') {
+                return certified;
+
+            } else if (rating === 'Fresh') {
+                return fresh;
+
+            } else {
+                return rotten;
+            }
+        };
+
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         return methods;
@@ -459,14 +491,3 @@ App.service('stateService', [
         return methods;
     }
 ]);
-
-App.config(['$routeProvider', function($routeProvider) {
-	'use strict';
-
-    $routeProvider.when('/', {
-    	templateUrl: 'partials/main.html',
-    	reloadOnSearch: false
-    });
-
-    $routeProvider.otherwise({redirectTo: '/'});
-}]);

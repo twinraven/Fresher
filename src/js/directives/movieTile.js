@@ -23,6 +23,12 @@ App.directive('movieTile', [
                     moviesService.clearUrlParams();
                     moviesService.clearBestMovie();
                 };
+
+                scope.getGraphicUrl = function getGraphicUrl(rating) {
+                    return 'images/icons/icon-' + moviesService.getRatingFormatted(rating) + '.png';
+                };
+
+                scope.getRatingFormatted = moviesService.getRatingFormatted;
             }
         };
     }

@@ -1,5 +1,5 @@
 .comparison {
-    min-height: 72vh;
+    //min-height: 72vh;
     max-width: 1000px;
     margin: 0 auto;
 
@@ -90,6 +90,7 @@
     position: relative;
     flex: 1;
     margin: auto;
+    min-height: 185px;
     text-align: left;
     transition: all 0.2s;
 
@@ -101,6 +102,14 @@
     .icon--corner {
         right: 3px;
         top: 6px;
+    }
+
+    .icon--more {
+        @include respond-max($cols-4) {
+        bottom: 5px;
+        position: absolute;
+        right: 4px;
+        }
     }
 
     @include respond-min($cols-3) {
@@ -133,8 +142,75 @@
 
 .movie-tile__rating {
     font-size: 13px;
+    overflow: hidden;
+
+    p {
+        margin-top: 0;
+    }
 
     @include respond-min($cols-5) {
         font-size: 14px;
+    }
+}
+
+.rt-score {
+    span, strong {
+        display: block;
+        line-height: 1.4;
+    }
+}
+
+.rt-score__title {
+    //
+}
+
+.rt-score__tomatometer {
+    //
+}
+
+.rt-score__value {
+    font-size: 16px;
+    position: relative;
+    vertical-align: middle;
+
+    img {
+        position: relative;
+        max-width: 35px;
+        vertical-align: middle;
+    }
+
+    @include respond-min($cols-3) {
+        font-size: 18px;
+
+        img {
+            max-width: 45px;
+        }
+    }
+}
+
+.rt-score__track {
+    background: $rt-grey;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 25px;
+    overflow: hidden;
+    position: relative;
+    max-width: 80%;
+}
+
+.rt-score__bar {
+    background: yellow;
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 0;
+
+    .is-certified &,
+    .is-fresh & {
+        background-color: $rt-fresh;
+    }
+
+    .is-rotten & {
+        background-color: $rt-rotten;
     }
 }

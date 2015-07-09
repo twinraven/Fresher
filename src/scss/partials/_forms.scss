@@ -103,24 +103,27 @@ input {
     top: 0;
 }
 .icon--with-text {
-    overflow: visible;
-    padding-left: 0;
-    position: relative;
-    text-align: left;
-    width: 100%;
-
     span {
-        left: 0;
+        display: none;
+    }
+
+    @include respond-min($cols-4) {
+        overflow: visible;
+        padding-left: 0;
         position: relative;
-        padding: 0 0 0 30px;
-    }
-
-    svg {
-    	left: 0;
-    }
-
-    @include respond-min($cols-3) {
+        text-align: left;
         width: auto;
+
+        span {
+            display: inline-block;
+            left: 0;
+            position: relative;
+            padding: 0 0 0 30px;
+        }
+
+        svg {
+            left: 0;
+        }
     }
 }
 .icon--more {

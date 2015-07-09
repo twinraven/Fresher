@@ -27,6 +27,10 @@
             </li>
         </ul>
 
+        <div class="movie-search__loading" ng-show="search.state.searchQueryActive">
+            <span>loading</span>
+        </div>
+
         <button class="button icon icon--close icon--corner" ng-click="search.close()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Close</span></button>
     </div>
 

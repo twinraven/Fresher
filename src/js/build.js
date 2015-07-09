@@ -91,13 +91,17 @@ App.controller('searchCtrl', [
 
         search.start = function start() {
             if (search.text) {
+                stateService.setSearchQueryState(true);
+
                 var searchQuery = moviesService.search(search.text);
 
                 searchQuery.success(function (data) {
                     search.results = data.movies;
+                    stateService.setSearchQueryState(false);
                 })
                 .error(function () {
                     console.log('error');
+                    stateService.setSearchQueryState(false);
                 });
             }
         };
@@ -118,22 +122,6 @@ App.controller('searchCtrl', [
         search.state = stateService.getState();
     }
 ]);
-App.filter('prettyTime', function () {
-    'use strict';
-
-    return function(num) {
-        if (num === undefined || num.length === 0) {
-            return num;
-        } else {
-            num = Number(num);
-            var hours = Math.floor(num / 60);
-            var mins = hours * 60;
-            var minsOver = Math.round(num - mins);
-
-            return hours + ' hr. ' + minsOver + ' min.';
-        }
-    };
-});
 App.directive('addMovie', [
     'stateService',
     function (stateService) {
@@ -237,6 +225,22 @@ App.directive('movieTile', [
         };
     }
 ]);
+App.filter('prettyTime', function () {
+    'use strict';
+
+    return function(num) {
+        if (num === undefined || num.length === 0) {
+            return num;
+        } else {
+            num = Number(num);
+            var hours = Math.floor(num / 60);
+            var mins = hours * 60;
+            var minsOver = Math.round(num - mins);
+
+            return hours + ' hr. ' + minsOver + ' min.';
+        }
+    };
+});
 App.config(['$routeProvider', function($routeProvider) {
 	'use strict';
 
@@ -410,6 +414,7 @@ App.service('stateService', [
             state = {
                 searchActive: false,
                 searchActiveId: null,
+                searchQueryActive: false,
                 moreActive: false,
                 activeMovie: null,
                 bestMovie: null,
@@ -425,6 +430,10 @@ App.service('stateService', [
         methods.setSearchState = function setSearchState(bool, id) {
             state.searchActive = bool;
             state.searchActiveId = id || null;
+        };
+
+        methods.setSearchQueryState = function setSearchQueryState(bool) {
+            state.searchQueryActive = bool;
         };
 
         methods.setMoreState = function setMoreState(bool) {

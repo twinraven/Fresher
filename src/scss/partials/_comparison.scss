@@ -13,7 +13,7 @@
     box-sizing: border-box;
     display: flex;
     flex: 5 0 0;
-    padding: 10px 20px;
+    padding: 8px 20px;
 
     @include respond-min($cols-4) {
         padding: 20px;
@@ -27,8 +27,7 @@
 }
 
 .vs {
-    font-family: $font-cursive;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: bold;
     letter-spacing: 0.1em;
     margin: auto;
@@ -90,12 +89,13 @@
     position: relative;
     flex: 1;
     margin: auto;
+    min-height: 205px;
     text-align: left;
     transition: all 0.2s;
 
     &.is-best {
         background: #8f8;
-        background: linear-gradient(to bottom, #c5f7aa 0%,#e9ffce 100%);
+        background: linear-gradient(to bottom, #BDFDC9 0%, #d8fcdf 100%)
     }
 
     .icon--corner {
@@ -122,5 +122,9 @@
 }
 
 .movie-tile__rating {
-    font-size: 14px;
+    font-size: 13px;
+
+    @include respond-min($cols-5) {
+        font-size: 14px;
+    }
 }

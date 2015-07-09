@@ -7,6 +7,8 @@ App.service('moviesService', [
     function($http, $location, stateService) {
         'use strict';
 
+        window.APIKEY = window.APIKEY ? window.APIKEY : '12345';
+
         var movies = [],
             methods = {},
             searchUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=%SEARCH%&page_limit=20&page=1&apikey=%APIKEY%&callback=JSONP_CALLBACK',

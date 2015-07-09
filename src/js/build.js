@@ -122,22 +122,6 @@ App.controller('searchCtrl', [
         search.state = stateService.getState();
     }
 ]);
-App.filter('prettyTime', function () {
-    'use strict';
-
-    return function(num) {
-        if (num === undefined || num.length === 0) {
-            return num;
-        } else {
-            num = Number(num);
-            var hours = Math.floor(num / 60);
-            var mins = hours * 60;
-            var minsOver = Math.round(num - mins);
-
-            return hours + ' hr. ' + minsOver + ' min.';
-        }
-    };
-});
 App.directive('addMovie', [
     'stateService',
     function (stateService) {
@@ -241,6 +225,22 @@ App.directive('movieTile', [
         };
     }
 ]);
+App.filter('prettyTime', function () {
+    'use strict';
+
+    return function(num) {
+        if (num === undefined || num.length === 0) {
+            return num;
+        } else {
+            num = Number(num);
+            var hours = Math.floor(num / 60);
+            var mins = hours * 60;
+            var minsOver = Math.round(num - mins);
+
+            return hours + ' hr. ' + minsOver + ' min.';
+        }
+    };
+});
 App.config(['$routeProvider', function($routeProvider) {
 	'use strict';
 
@@ -306,25 +306,21 @@ App.service('moviesService', [
                 return false;
             }
 
-            if (movies.length < 2) {
-                methods.clearBestMovie();
+            methods.clearUrlParams();
+            methods.clearBestMovie();
 
-                // record whether this movie is in the first or second position in our comparison
-                if (id !== null && id !== undefined) {
-                    pos = parseInt(id, 10);
-                }
+            // record whether this movie is in the first or second position in our comparison
+            if (id !== null && id !== undefined) {
+                pos = parseInt(id, 10);
+            }
 
-                data.pos = pos;
+            data.pos = pos;
 
-                movies[movies.length] = data;
+            movies[movies.length] = data;
 
-                if (movies.length === 2) {
-                    methods.addComparisonToUrl();
-                    methods.highlightBestMovie();
-                }
-
-            } else {
-                alert('you already have 2 movies. Please remove 1 first');
+            if (movies.length === 2) {
+                methods.addComparisonToUrl();
+                methods.highlightBestMovie();
             }
 
             return true;

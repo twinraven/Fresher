@@ -122,22 +122,6 @@ App.controller('searchCtrl', [
         search.state = stateService.getState();
     }
 ]);
-App.filter('prettyTime', function () {
-    'use strict';
-
-    return function(num) {
-        if (num === undefined || num.length === 0) {
-            return num;
-        } else {
-            num = Number(num);
-            var hours = Math.floor(num / 60);
-            var mins = hours * 60;
-            var minsOver = Math.round(num - mins);
-
-            return hours + ' hr. ' + minsOver + ' min.';
-        }
-    };
-});
 App.directive('addMovie', [
     'stateService',
     function (stateService) {
@@ -241,6 +225,32 @@ App.directive('movieTile', [
         };
     }
 ]);
+App.filter('prettyTime', function () {
+    'use strict';
+
+    return function(num) {
+        if (num === undefined || num.length === 0) {
+            return num;
+        } else {
+            num = Number(num);
+            var hours = Math.floor(num / 60);
+            var mins = hours * 60;
+            var minsOver = Math.round(num - mins);
+
+            return hours + ' hr. ' + minsOver + ' min.';
+        }
+    };
+});
+App.config(['$routeProvider', function($routeProvider) {
+	'use strict';
+
+    $routeProvider.when('/', {
+    	templateUrl: 'partials/main.html',
+    	reloadOnSearch: false
+    });
+
+    $routeProvider.otherwise({redirectTo: '/'});
+}]);
 /*global APIKEY */
 
 App.service('moviesService', [
@@ -463,14 +473,3 @@ App.service('stateService', [
         return methods;
     }
 ]);
-
-App.config(['$routeProvider', function($routeProvider) {
-	'use strict';
-
-    $routeProvider.when('/', {
-    	templateUrl: 'partials/main.html',
-    	reloadOnSearch: false
-    });
-
-    $routeProvider.otherwise({redirectTo: '/'});
-}]);

@@ -91,13 +91,17 @@ App.controller('searchCtrl', [
 
         search.start = function start() {
             if (search.text) {
+                stateService.setSearchQueryState(true);
+
                 var searchQuery = moviesService.search(search.text);
 
                 searchQuery.success(function (data) {
                     search.results = data.movies;
+                    stateService.setSearchQueryState(false);
                 })
                 .error(function () {
                     console.log('error');
+                    stateService.setSearchQueryState(false);
                 });
             }
         };
@@ -410,6 +414,7 @@ App.service('stateService', [
             state = {
                 searchActive: false,
                 searchActiveId: null,
+                searchQueryActive: false,
                 moreActive: false,
                 activeMovie: null,
                 bestMovie: null,
@@ -425,6 +430,10 @@ App.service('stateService', [
         methods.setSearchState = function setSearchState(bool, id) {
             state.searchActive = bool;
             state.searchActiveId = id || null;
+        };
+
+        methods.setSearchQueryState = function setSearchQueryState(bool) {
+            state.searchQueryActive = bool;
         };
 
         methods.setMoreState = function setMoreState(bool) {

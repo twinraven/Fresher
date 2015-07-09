@@ -17,13 +17,17 @@ App.controller('searchCtrl', [
 
         search.start = function start() {
             if (search.text) {
+                stateService.setSearchQueryState(true);
+
                 var searchQuery = moviesService.search(search.text);
 
                 searchQuery.success(function (data) {
                     search.results = data.movies;
+                    stateService.setSearchQueryState(false);
                 })
                 .error(function () {
                     console.log('error');
+                    stateService.setSearchQueryState(false);
                 });
             }
         };

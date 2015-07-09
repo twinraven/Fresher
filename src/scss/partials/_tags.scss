@@ -1,5 +1,5 @@
 html, body {
-    height: 100%;
+    min-height: 100%;
 }
 
 body {
@@ -22,9 +22,5 @@ a {
 }
 
 main {
-    padding-top: 70px;
-
-    @include respond-min($cols-4) {
-        padding-top: 0;
-    }
+    padding-top: 0;
 }

@@ -43,6 +43,15 @@
 
 }
 
+.movie-search__loading {
+	background: url(../images/loading.gif) no-repeat center center;
+	color: transparent;
+	display: block;
+	font-size: 13px;
+	padding: 20px 12px;
+	text-decoration: none;
+}
+
 .search-result {
 	border-top: 1px solid #aaa;
 	font-size: 13px;

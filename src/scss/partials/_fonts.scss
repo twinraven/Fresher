@@ -17,6 +17,11 @@ button {
     font-family: $font-body;
 }
 
+button {
+    font-weight: bold;
+    font-size: 13px;
+}
+
 h1,
 .movie-search__title,
 .add-movie {
@@ -27,7 +32,36 @@ h4, h5, h6 {
     letter-spacing: -0.02em;
 }
 
-button {
-    font-weight: bold;
-    font-size: 13px;
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+h2 {
+    font-size: 1.3em;
+    margin: 0.83em 0;
+
+    @include respond-min($cols-5) {
+        font-size: 1.5em;
+    }
+}
+
+h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+}
+
+h4 {
+    font-size: 1em;
+    margin: 1.33em 0;
+}
+
+h5 {
+    font-size: 0.83em;
+    margin: 1.67em 0;
+}
+
+h6 {
+    font-size: 0.67em;
+    margin: 2.33em 0;
 }

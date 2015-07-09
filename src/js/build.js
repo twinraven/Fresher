@@ -241,16 +241,6 @@ App.filter('prettyTime', function () {
         }
     };
 });
-App.config(['$routeProvider', function($routeProvider) {
-	'use strict';
-
-    $routeProvider.when('/', {
-    	templateUrl: 'partials/main.html',
-    	reloadOnSearch: false
-    });
-
-    $routeProvider.otherwise({redirectTo: '/'});
-}]);
 /*global APIKEY */
 
 App.service('moviesService', [
@@ -469,3 +459,14 @@ App.service('stateService', [
         return methods;
     }
 ]);
+
+App.config(['$routeProvider', function($routeProvider) {
+	'use strict';
+
+    $routeProvider.when('/', {
+    	templateUrl: 'partials/main.html',
+    	reloadOnSearch: false
+    });
+
+    $routeProvider.otherwise({redirectTo: '/'});
+}]);

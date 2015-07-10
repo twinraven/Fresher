@@ -9,7 +9,7 @@
             <span class="rt-score__tomatometer">TOMATOMETER<sup>TM</sup></span>
             <strong class="rt-score__value"><img ng-src="{{getGraphicUrl(movie.ratings.critics_rating)}}"> {{ movie.ratings.critics_score }}%</strong>
         </p>
-        <div class="rt-score__track" ng-class="'is-' + getRatingFormatted(movie.ratings.critics_rating)">
+        <div class="rt-score__track" ng-class="'is-' + getCriticsRatingFormatted(movie.ratings.critics_rating)">
             <span class="rt-score__bar" ng-style="{'width': movie.ratings.critics_score + '%'}"></span>
         </div>
     </div>

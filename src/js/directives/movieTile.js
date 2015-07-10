@@ -1,7 +1,8 @@
 App.directive('movieTile', [
     'moviesService',
     'stateService',
-    function (moviesService, stateService) {
+    '$timeout',
+    function (moviesService, stateService, $timeout) {
         'use strict';
 
         return {

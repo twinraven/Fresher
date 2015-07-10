@@ -7,7 +7,7 @@
                 <div class="movie-search__field">
                     <a href="javascript:;" class="button icon icon--close icon--small icon--corner" ng-click="search.clear()" ng-show="search.text"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></a>
 
-                    <input type="text" id="movie-text" name="movie-text" class="movie-search__text" ng-model="search.text" has-focus-when="search.state.searchActive">
+                    <input type="text" id="movie-text" name="movie-text" class="movie-search__text" ng-model="search.text" autofocus>
                 </div>
 
                 <div class="movie-search__field movie-search__field--button">

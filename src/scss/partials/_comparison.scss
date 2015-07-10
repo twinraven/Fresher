@@ -92,7 +92,10 @@
     margin: auto;
     min-height: 185px;
     text-align: left;
-    transition: all 0.2s;
+    animation: growIn;
+    animation-duration: 0.25s;
+    animation-iteration-count: 1;
+    animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1.000);
 
     &.is-best {
         background: #8f8;
@@ -101,7 +104,11 @@
 
     &.is-worst {
         opacity: 0.7;
-        //transform: scale(0.93);
+    }
+
+    &.ng-hide {
+        animation: growOut;
+        animation-duration: 0.3s;
     }
 
     .icon--corner {
@@ -121,6 +128,30 @@
         .icon--more {
             bottom: 9px;
         }
+    }
+}
+
+@keyframes growIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes growOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
     }
 }
 
@@ -217,6 +248,7 @@
     left: 0;
     height: 100%;
     width: 0;
+    transition: width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000) 0.1s;
 
     .is-certified &,
     .is-fresh & {

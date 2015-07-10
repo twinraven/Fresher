@@ -1,6 +1,6 @@
 /*global angular */
 
-var App = angular.module('Fresher', ['ngRoute']);
+var App = angular.module('Fresher', ['ngRoute', 'ngAnimate']);
 App.controller('compareCtrl', [
     '$scope',
     '$location',
@@ -155,27 +155,6 @@ App.directive('addMovie', [
         };
     }
 ]);
-App.directive('hasFocusWhen', [
-    function () {
-        'use strict';
-
-        return {
-            restrict: 'A',
-            scope: {
-                when: '=hasFocusWhen'
-            },
-            link: function(scope, elem, attrs) {
-                scope.$watch("when", function(currentValue, previousValue) {
-                    if (currentValue === true && !previousValue) {
-                        elem[0].focus();
-                    }
-                });
-            }
-        };
-    }
-]);
-
-
 App.directive('movieFull', [
     'moviesService',
     'stateService',
@@ -215,7 +194,8 @@ App.directive('movieFull', [
 App.directive('movieTile', [
     'moviesService',
     'stateService',
-    function (moviesService, stateService) {
+    '$timeout',
+    function (moviesService, stateService, $timeout) {
         'use strict';
 
         return {

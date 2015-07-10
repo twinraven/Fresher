@@ -247,6 +247,16 @@ App.directive('movieTile', [
         };
     }
 ]);
+App.config(['$routeProvider', function($routeProvider) {
+	'use strict';
+
+    $routeProvider.when('/', {
+    	templateUrl: 'partials/main.html',
+    	reloadOnSearch: false
+    });
+
+    $routeProvider.otherwise({redirectTo: '/'});
+}]);
 App.filter('prettyTime', function () {
     'use strict';
 
@@ -263,16 +273,6 @@ App.filter('prettyTime', function () {
         }
     };
 });
-App.config(['$routeProvider', function($routeProvider) {
-	'use strict';
-
-    $routeProvider.when('/', {
-    	templateUrl: 'partials/main.html',
-    	reloadOnSearch: false
-    });
-
-    $routeProvider.otherwise({redirectTo: '/'});
-}]);
 /*global APIKEY */
 
 App.service('moviesService', [

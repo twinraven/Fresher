@@ -38,7 +38,14 @@
         <!-- <nav></nav> -->
     </header>
 
-    <div ng-view></div>
+    <p class="intro">Quickly compare two movies by their Rotten Tomatoes<sup>TM</sup> ratings.</p>
+
+    <div class="content" ng-view></div>
+
+    <footer>
+      <p class="attribution attribution--data"><span>Brought to life with data from</span> <a href="http://rottentomatoes.com/" target="_blank"><img src="images/logo_rotten-tomatoes.png" alt="Rotten Tomatoes"></a></p>
+      <!-- <p class="attribution attribution--created-by"><span>Made by</span> <a href="http://www.tombran.co.uk/" target="_blank"><img src="images/logo_tombran.png" alt="Tom Bran"></a></p> -->
+    </footer>
 
     <script src="js/libs/bower/angular/angular.min.js"></script>
     <script src="js/libs/bower/angular-route/angular-route.min.js"></script>

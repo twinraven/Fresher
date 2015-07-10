@@ -3,7 +3,7 @@
         <h2 class="movie-full__title">{{movie.title}} ({{movie.year}})</h2>
         <p><strong>Rating</strong>: {{movie.mpaa_rating}}</p>
         <p><strong>Runtime</strong>: {{movie.runtime | prettyTime}}</p>
-        <p><strong>Critic Score</strong>: <img ng-src="movie.getCriticsGraphicUrl(movie.rating.critics_score)" class="rating-small"> {{movie.ratings.critics_score}}% ({{movie.ratings.critics_rating}})</p>
+        <p><strong>Critic Score</strong>: {{movie.ratings.critics_score}}% ({{movie.ratings.critics_rating}})</p>
         <p><strong>Audience Score</strong>: {{movie.ratings.audience_score}}% ({{movie.ratings.audience_rating}})</p>
         <p><strong>Cast</strong>: <span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p>
         <p>{{movie.critics_consensus}}</p>

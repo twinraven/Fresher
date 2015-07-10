@@ -36,7 +36,7 @@
         <div class="movie movie--0" ng-class="{ 'is-loading': compare.state.loading[0] }">
             <div class="movie__inner">
                 <add-movie movie="compare.getMovieAtPos(0)" id="0"></add-movie>
-                <movie-tile movie="compare.getMovieAtPos(0)" ng-class="{ 'is-best': compare.state.bestMovie === 0 }"></movie-tile>
+                <movie-tile movie="compare.getMovieAtPos(0)" ng-class="compare.setBestWorstClass(0)"></movie-tile>
             </div>
         </div>
 
@@ -45,7 +45,7 @@
         <div class="movie movie--1" ng-class="{ 'is-loading': compare.state.loading[1] }">
             <div class="movie__inner">
                 <add-movie movie="compare.getMovieAtPos(1)" id="1"></add-movie>
-                <movie-tile movie="compare.getMovieAtPos(1)" ng-class="{ 'is-best': compare.state.bestMovie === 1 }"></movie-tile>
+                <movie-tile movie="compare.getMovieAtPos(1)" ng-class="compare.setBestWorstClass(1)"></movie-tile>
             </div>
         </div>
 

@@ -17,6 +17,14 @@ App.directive('movieFull', [
                     stateService.setMoreState(false);
                 };
 
+                scope.getCriticsGraphicUrl = function getCriticsGraphicUrl(rating) {
+                    return 'images/icons/icon-critics-' + moviesService.getCriticsRatingFormatted(rating) + '.png';
+                };
+
+                scope.getAudienceGraphicUrl = function getAudienceGraphicUrl(rating) {
+                    return 'images/icons/icon-audience-' + moviesService.getAudienceRatingFormatted(rating) + '.png';
+                };
+
                 scope.$watch(stateService.getState, function(newState, oldState) {
                     if (newState && newState.activeMovie) {
                         scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);

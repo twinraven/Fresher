@@ -25,10 +25,10 @@ App.directive('movieTile', [
                 };
 
                 scope.getGraphicUrl = function getGraphicUrl(rating) {
-                    return 'images/icons/icon-' + moviesService.getRatingFormatted(rating) + '.png';
+                    return 'images/icons/icon-critics-' + moviesService.getCriticsRatingFormatted(rating) + '.png';
                 };
 
-                scope.getRatingFormatted = moviesService.getRatingFormatted;
+                scope.getCriticsRatingFormatted = moviesService.getCriticsRatingFormatted;
             }
         };
     }

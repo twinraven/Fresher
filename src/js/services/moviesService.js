@@ -145,7 +145,7 @@ App.service('moviesService', [
             return $http.jsonp(movieUrl);
         };
 
-        methods.getRatingFormatted = function getRatingFormatted(rating) {
+        methods.getCriticsRatingFormatted = function getCriticsRatingFormatted(rating) {
             var certified = 'certified';
             var fresh = 'fresh';
             var rotten = 'rotten';
@@ -154,6 +154,18 @@ App.service('moviesService', [
                 return certified;
 
             } else if (rating === 'Fresh') {
+                return fresh;
+
+            } else {
+                return rotten;
+            }
+        };
+
+        methods.getAudienceRatingFormatted = function getAudienceRatingFormatted(rating) {
+            var fresh = 'fresh';
+            var rotten = 'rotten';
+
+            if (rating === 'Fresh') {
                 return fresh;
 
             } else {

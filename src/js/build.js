@@ -39,7 +39,15 @@ App.controller('compareCtrl', [
             stateService.clearAllLoadingState();
             stateService.setSearchState(false);
             stateService.setMoreState(false);
+        };
 
+        compare.setBestWorstClass = function setBestWorstClass(id) {
+            if (compare.state.bestMovie !== null) {
+                return compare.state.bestMovie === id ? 'is-best' : 'is-worst';
+
+            } else {
+                return '';
+            }
         };
 
         compare.getMovieAtPos = moviesService.getMovieAtPos;
@@ -187,6 +195,14 @@ App.directive('movieFull', [
                     stateService.setMoreState(false);
                 };
 
+                scope.getCriticsGraphicUrl = function getCriticsGraphicUrl(rating) {
+                    return 'images/icons/icon-critics-' + moviesService.getCriticsRatingFormatted(rating) + '.png';
+                };
+
+                scope.getAudienceGraphicUrl = function getAudienceGraphicUrl(rating) {
+                    return 'images/icons/icon-audience-' + moviesService.getAudienceRatingFormatted(rating) + '.png';
+                };
+
                 scope.$watch(stateService.getState, function(newState, oldState) {
                     if (newState && newState.activeMovie) {
                         scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);
@@ -223,10 +239,10 @@ App.directive('movieTile', [
                 };
 
                 scope.getGraphicUrl = function getGraphicUrl(rating) {
-                    return 'images/icons/icon-' + moviesService.getRatingFormatted(rating) + '.png';
+                    return 'images/icons/icon-critics-' + moviesService.getCriticsRatingFormatted(rating) + '.png';
                 };
 
-                scope.getRatingFormatted = moviesService.getRatingFormatted;
+                scope.getCriticsRatingFormatted = moviesService.getCriticsRatingFormatted;
             }
         };
     }
@@ -404,7 +420,7 @@ App.service('moviesService', [
             return $http.jsonp(movieUrl);
         };
 
-        methods.getRatingFormatted = function getRatingFormatted(rating) {
+        methods.getCriticsRatingFormatted = function getCriticsRatingFormatted(rating) {
             var certified = 'certified';
             var fresh = 'fresh';
             var rotten = 'rotten';
@@ -413,6 +429,18 @@ App.service('moviesService', [
                 return certified;
 
             } else if (rating === 'Fresh') {
+                return fresh;
+
+            } else {
+                return rotten;
+            }
+        };
+
+        methods.getAudienceRatingFormatted = function getAudienceRatingFormatted(rating) {
+            var fresh = 'fresh';
+            var rotten = 'rotten';
+
+            if (rating === 'Fresh') {
                 return fresh;
 
             } else {

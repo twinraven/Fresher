@@ -36,7 +36,15 @@ App.controller('compareCtrl', [
             stateService.clearAllLoadingState();
             stateService.setSearchState(false);
             stateService.setMoreState(false);
+        };
 
+        compare.setBestWorstClass = function setBestWorstClass(id) {
+            if (compare.state.bestMovie !== null) {
+                return compare.state.bestMovie === id ? 'is-best' : 'is-worst';
+
+            } else {
+                return '';
+            }
         };
 
         compare.getMovieAtPos = moviesService.getMovieAtPos;

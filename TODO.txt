@@ -1,6 +1,3 @@
 TODO:
 
-- create ratings bar styles
-- create icon styles
-- implement rotten tomatoes guidelines - links, text, etc
 - wire up real api

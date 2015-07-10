@@ -4,23 +4,31 @@
 	border-radius: 2px;
 	box-shadow: 0 8px 70px rgba(0,0,0,0.3);
 	box-sizing: border-box;
-	display: none;
 	padding: 40px 10px 0;
+	opacity: 1;
 	position: fixed;
 	left: 10px;
 	top: 10px;
+	transition: all 0.2s $transition;
 	width: calc(100% - 20px);
 	z-index: 30;
 
+	&.ng-hide {
+		display: block !important;
+		opacity: 0;
+		pointer-events: none;
+		transform: scale(0.9);
+	}
+
 	&.is-active {
-		display: block;
+		opacity: 1;
+		transform: scale(1);
 	}
 
 	@include respond-min($cols-4) {
 		top: 10px;
 		max-width: #{$cols-3+'px'};
-		left: 50%;
-		transform: translateX(-50%);
+		left: calc(50% - #{$cols-3/2+'px'});
 	}
 }
 

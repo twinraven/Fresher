@@ -1,0 +1,5 @@
+{
+  "directory": "src/js/libs/bower/",
+  "analytics": false,
+  "timeout": 120000
+}

@@ -19,8 +19,8 @@ App.controller('compareCtrl', [
                 moviesService.getMovieDataById(loc.movie2)
             ])
             .then(function (movies) {
-                compare.movies[0] = movies[0];
-                compare.movies[1] = movies[1];
+                moviesService.save(movies[0].data, 0);
+                moviesService.save(movies[1].data, 1);
 
                 stateService.clearAllLoadingState();
             },

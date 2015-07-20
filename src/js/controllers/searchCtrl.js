@@ -22,7 +22,7 @@ App.controller('searchCtrl', [
                 var searchQuery = moviesService.search(search.text);
 
                 searchQuery.success(function (data) {
-                    search.results = data.movies;
+                    search.results = data.results;
                     stateService.setSearchQueryState(false);
                 })
                 .error(function () {
@@ -34,15 +34,10 @@ App.controller('searchCtrl', [
 
         search.use = function use(index) {
             if (moviesService.save(search.results[index], search.state.searchActiveId)) {
-                search.close();
+                stateService.setSearchState(false);
+
+                search.clear();
             }
-        };
-
-        search.close = function close() {
-            stateService.clearAllLoadingState();
-            stateService.setSearchState(false);
-
-            search.clear();
         };
 
         search.state = stateService.getState();

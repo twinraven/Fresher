@@ -19,11 +19,12 @@
         <ul class="movie-search__results" ng-show="search.results && search.text">
             <li class="search-result" ng-repeat="movie in search.results">
                 <a href="javascript:;" ng-click="search.use($index)">
-                    <h4 class="search-result__title" ng-bind="movie.title + ' (' + movie.year + ')'"></h4>
-                    <p class="search-result__cast"><span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p>
+                    <h4 class="search-result__title" ng-bind="movie.original_title + ' (' + (movie.release_date | yearOnly) + ')'"></h4>
+                    <!-- <p class="search-result__cast"><span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p> -->
                 </a>
             </li>
         </ul>
+        <p class="movie-search__empty" ng-show="search.results.length === 0 && search.text">No results</p>
 
         <div class="movie-search__loading" ng-show="search.state.searchQueryActive">
             <span>loading</span>

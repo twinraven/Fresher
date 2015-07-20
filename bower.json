@@ -1,6 +1,6 @@
 {
   "name": "fresher",
-  "description": "Quickly compare two movies by their Rotten Tomatoes ratings.",
+  "description": "Quickly compare two movies by their TheMovieDB ratings.",
   "version": "0.1.0",
   "homepage": "https://github.com/twinraven/Fresher",
   "license": "MIT",

@@ -22,8 +22,8 @@ App.controller('compareCtrl', [
                 moviesService.getMovieDataById(loc.movie2)
             ])
             .then(function (movies) {
-                compare.movies[0] = movies[0];
-                compare.movies[1] = movies[1];
+                moviesService.save(movies[0].data, 0);
+                moviesService.save(movies[1].data, 1);
 
                 stateService.clearAllLoadingState();
             },
@@ -104,7 +104,7 @@ App.controller('searchCtrl', [
                 var searchQuery = moviesService.search(search.text);
 
                 searchQuery.success(function (data) {
-                    search.results = data.movies;
+                    search.results = data.results;
                     stateService.setSearchQueryState(false);
                 })
                 .error(function () {
@@ -116,15 +116,10 @@ App.controller('searchCtrl', [
 
         search.use = function use(index) {
             if (moviesService.save(search.results[index], search.state.searchActiveId)) {
-                search.close();
+                stateService.setSearchState(false);
+
+                search.clear();
             }
-        };
-
-        search.close = function close() {
-            stateService.clearAllLoadingState();
-            stateService.setSearchState(false);
-
-            search.clear();
         };
 
         search.state = stateService.getState();
@@ -174,14 +169,6 @@ App.directive('movieFull', [
                     stateService.setMoreState(false);
                 };
 
-                scope.getCriticsGraphicUrl = function getCriticsGraphicUrl(rating) {
-                    return 'images/icons/icon-critics-' + moviesService.getCriticsRatingFormatted(rating) + '.png';
-                };
-
-                scope.getAudienceGraphicUrl = function getAudienceGraphicUrl(rating) {
-                    return 'images/icons/icon-audience-' + moviesService.getAudienceRatingFormatted(rating) + '.png';
-                };
-
                 scope.$watch(stateService.getState, function(newState, oldState) {
                     if (newState && newState.activeMovie) {
                         scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);
@@ -218,11 +205,9 @@ App.directive('movieTile', [
                     moviesService.clearBestMovie();
                 };
 
-                scope.getGraphicUrl = function getGraphicUrl(rating) {
-                    return 'images/icons/icon-critics-' + moviesService.getCriticsRatingFormatted(rating) + '.png';
-                };
+                scope.getPosterUrl = moviesService.getPosterUrl;
 
-                scope.getCriticsRatingFormatted = moviesService.getCriticsRatingFormatted;
+                scope.getRatingFormatted = moviesService.getRatingFormatted;
             }
         };
     }
@@ -240,6 +225,18 @@ App.filter('prettyTime', function () {
             var minsOver = Math.round(num - mins);
 
             return hours + ' hr. ' + minsOver + ' min.';
+        }
+    };
+});
+App.filter('yearOnly', function () {
+    'use strict';
+
+    return function(num) {
+        if (num === undefined || !num) {
+            return num;
+
+        } else {
+            return num.split('-')[0];
         }
     };
 });
@@ -266,8 +263,9 @@ App.service('moviesService', [
 
         var movies = [],
             methods = {},
-            searchUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=%SEARCH%&page_limit=20&page=1&apikey=%APIKEY%&callback=JSONP_CALLBACK',
-            movieUrl = 'http://api.rottentomatoes.com/api/public/v1.0/movies/%ID%.json?apikey=%APIKEY%&callback=JSONP_CALLBACK';
+            searchUrl = 'http://api.themoviedb.org/3/search/movie?query=%SEARCH%&api_key=%APIKEY%',
+            movieUrl = 'http://api.themoviedb.org/3/movie/%ID%?api_key=%APIKEY%&callback=JSON_CALLBACK',
+            imageUrl = 'http://image.tmdb.org/t/p/w500/%URL%';
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -311,19 +309,33 @@ App.service('moviesService', [
             methods.clearUrlParams();
             methods.clearBestMovie();
 
-            // record whether this movie is in the first or second position in our comparison
-            if (id !== null && id !== undefined) {
-                pos = parseInt(id, 10);
-            }
+            // async data request
+            methods.getMovieDataById(data.id).then(function (response) {
+                var data = response.data;
 
-            data.pos = pos;
+                // record whether this movie is in the first or second position in our comparison
+                if (id !== null && id !== undefined) {
+                    pos = parseInt(id, 10);
+                }
 
-            movies[movies.length] = data;
+                data.pos = pos;
 
-            if (movies.length === 2) {
-                methods.addComparisonToUrl();
-                methods.highlightBestMovie();
-            }
+                data.year = data.release_date.split('-')[0];
+
+                movies[movies.length] = data;
+
+                stateService.clearAllLoadingState();
+
+                if (movies.length === 2) {
+                    methods.addComparisonToUrl();
+                    methods.highlightBestMovie();
+                }
+
+
+            }, function (error) {
+                alert('error occurred');
+            });
+
 
             return true;
         };
@@ -338,11 +350,11 @@ App.service('moviesService', [
         methods.highlightBestMovie = function highlightBestMovie() {
             var best = null;
 
-            if (movies[0].ratings.critics_score > movies[1].ratings.critics_score) {
+            if (movies[0].vote_average > movies[1].vote_average) {
                 best = 0;
             }
 
-            if (movies[0].ratings.critics_score < movies[1].ratings.critics_score) {
+            if (movies[0].vote_average < movies[1].vote_average) {
                 best = 1;
             }
 
@@ -374,12 +386,16 @@ App.service('moviesService', [
         };
 
         methods.getSearchUrl = function getSearchUrl(str) {
-            //return searchUrl.replace(/%SEARCH%/, str).replace(/%APIKEY%/, APIKEY);
-            return 'json/search.json';
+            return searchUrl.replace(/%SEARCH%/, str).replace(/%APIKEY%/, APIKEY);
+            //return 'json/search.json';
         };
 
         methods.getMovieUrl = function getSearchUrl(id) {
             return movieUrl.replace(/%ID%/, id).replace(/%APIKEY%/, APIKEY);
+        };
+
+        methods.getPosterUrl = function getSearchUrl(url) {
+            return url ? imageUrl.replace(/%URL%/, url) : '';
         };
 
         methods.search = function search(str) {
@@ -400,7 +416,7 @@ App.service('moviesService', [
             return $http.jsonp(movieUrl);
         };
 
-        methods.getCriticsRatingFormatted = function getCriticsRatingFormatted(rating) {
+        methods.getRatingFormatted = function getRatingFormatted(rating) {
             var certified = 'certified';
             var fresh = 'fresh';
             var rotten = 'rotten';
@@ -416,17 +432,6 @@ App.service('moviesService', [
             }
         };
 
-        methods.getAudienceRatingFormatted = function getAudienceRatingFormatted(rating) {
-            var fresh = 'fresh';
-            var rotten = 'rotten';
-
-            if (rating === 'Fresh') {
-                return fresh;
-
-            } else {
-                return rotten;
-            }
-        };
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

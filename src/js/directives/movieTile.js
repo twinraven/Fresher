@@ -25,11 +25,9 @@ App.directive('movieTile', [
                     moviesService.clearBestMovie();
                 };
 
-                scope.getGraphicUrl = function getGraphicUrl(rating) {
-                    return 'images/icons/icon-critics-' + moviesService.getCriticsRatingFormatted(rating) + '.png';
-                };
+                scope.getPosterUrl = moviesService.getPosterUrl;
 
-                scope.getCriticsRatingFormatted = moviesService.getCriticsRatingFormatted;
+                scope.getRatingFormatted = moviesService.getRatingFormatted;
             }
         };
     }

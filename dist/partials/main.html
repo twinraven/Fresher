@@ -1,13 +1,16 @@
 <main class="main">
-    <div class="movie-search" ng-controller="searchCtrl as search" ng-class="{ 'is-active': search.state.searchActive }">
+    <div class="movie-search" ng-controller="searchCtrl as search" ng-show="search.state.searchActive" ng-class="{'is-active': search.state.searchActive}">
         <form>
             <h2 class="movie-search__title">Search</h2>
 
             <div class="search-wrapper">
                 <div class="movie-search__field">
-                    <a href="javascript:;" class="button icon icon--close icon--small icon--corner" ng-click="search.clear()" ng-show="search.text"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Clear search</span></a>
+                    <a href="javascript:;" class="button icon icon--close icon--small icon--corner" ng-click="search.clear()" ng-show="search.text">
+                        <svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg>
+                        <span>Clear search</span>
+                    </a>
 
-                    <input type="text" id="movie-text" name="movie-text" class="movie-search__text" ng-model="search.text" has-focus-when="search.state.searchActive">
+                    <input type="text" id="movie-text" name="movie-text" class="movie-search__text" ng-model="search.text" autofocus focus-when="search.state.searchActive">
                 </div>
 
                 <div class="movie-search__field movie-search__field--button">
@@ -20,7 +23,9 @@
             <li class="search-result" ng-repeat="movie in search.results">
                 <a href="javascript:;" ng-click="search.use($index)">
                     <h4 class="search-result__title" ng-bind="movie.title + ' (' + movie.year + ')'"></h4>
-                    <p class="search-result__cast"><span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p>
+                    <p class="search-result__cast">
+                        <span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span>
+                    </p>
                 </a>
             </li>
         </ul>
@@ -36,7 +41,7 @@
         <div class="movie movie--0" ng-class="{ 'is-loading': compare.state.loading[0] }">
             <div class="movie__inner">
                 <add-movie movie="compare.getMovieAtPos(0)" id="0"></add-movie>
-                <movie-tile movie="compare.getMovieAtPos(0)" ng-class="compare.setBestWorstClass(0)"></movie-tile>
+                <movie-tile movie="compare.getMovieAtPos(0)" class="{{compare.setBestWorstClass(0)}}" ng-class="{'is-active': compare.getMovieAtPos(0)}"></movie-tile>
             </div>
         </div>
 
@@ -45,11 +50,11 @@
         <div class="movie movie--1" ng-class="{ 'is-loading': compare.state.loading[1] }">
             <div class="movie__inner">
                 <add-movie movie="compare.getMovieAtPos(1)" id="1"></add-movie>
-                <movie-tile movie="compare.getMovieAtPos(1)" ng-class="compare.setBestWorstClass(1)"></movie-tile>
+                <movie-tile movie="compare.getMovieAtPos(1)" class="{{compare.setBestWorstClass(1)}}" ng-class="{'is-active': compare.getMovieAtPos(1)}"></movie-tile>
             </div>
         </div>
 
-        <movie-full ng-class="{ 'is-active': compare.state.moreActive }"></movie-full>
+        <movie-details ng-class="{ 'is-active': compare.state.moreActive }"></movie-details>
 
         <span class="overlay" ng-click="compare.closeOverlay()" ng-class="{ 'is-active': compare.state.moreActive || compare.state.searchActive }"></span>
     </div>

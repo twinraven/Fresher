@@ -1,4 +1,4 @@
-App.directive('movieFull', [
+App.directive('movieDetails', [
     'moviesService',
     'stateService',
     function (moviesService, stateService) {
@@ -8,7 +8,7 @@ App.directive('movieFull', [
             restrict: 'E',
             replace: 'true',
             scope: true,
-            templateUrl: 'partials/movie-full.html',
+            templateUrl: 'partials/movie-details.html',
 
             link: function(scope, elem, attrs) {
                 scope.movie = {};

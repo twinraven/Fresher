@@ -150,7 +150,27 @@ App.directive('addMovie', [
         };
     }
 ]);
-App.directive('movieFull', [
+App.directive('focusWhen', [
+    function () {
+        'use strict';
+
+        return {
+            restrict: 'A',
+            scope: {
+                focusWhen: '='
+            },
+            link: function(scope, elem, attrs) {
+                scope.$watch('focusWhen', function(currentValue, previousValue) {
+                    if (currentValue === true && !previousValue) {
+                        elem[0].focus();
+                    }
+                });
+            }
+        };
+    }
+]);
+
+App.directive('movieDetails', [
     'moviesService',
     'stateService',
     function (moviesService, stateService) {
@@ -160,7 +180,7 @@ App.directive('movieFull', [
             restrict: 'E',
             replace: 'true',
             scope: true,
-            templateUrl: 'partials/movie-full.html',
+            templateUrl: 'partials/movie-details.html',
 
             link: function(scope, elem, attrs) {
                 scope.movie = {};

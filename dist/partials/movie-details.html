@@ -1,19 +1,22 @@
-<div class="movie-full">
-    <div class="movie-full__inner">
-        <h2 class="movie-full__title">{{movie.original_title}} ({{movie.release_date | yearOnly}})</h2>
+<div class="movie-details">
+    <div class="movie-details__inner">
+        <h2 class="movie-details__title">{{movie.title}} ({{movie.year}})</h2>
+        <p><strong>Rating</strong>: {{movie.mpaa_rating}}</p>
         <p><strong>Runtime</strong>: {{movie.runtime | prettyTime}}</p>
-        <p><strong>Score</strong>: {{movie.vote_average * 10}}%</p>
-        <!-- <p><strong>Cast</strong>: <span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p> -->
+        <p><strong>Critic Score</strong>: <img ng-src="{{getCriticsGraphicUrl(movie.ratings.critics_rating)}}" class="movie-details__icon"> {{movie.ratings.critics_score}}% ({{movie.ratings.critics_rating}})</p>
+        <p><strong>Audience Score</strong>: <img ng-src="{{getAudienceGraphicUrl(movie.ratings.audience_rating)}}" class="movie-details__icon"> {{movie.ratings.audience_score}}% ({{movie.ratings.audience_rating}})</p>
+        <p><strong>Cast</strong>: <span ng-repeat="member in movie.abridged_cast">{{member.name}}{{$last ? '.' : ', '}}</span></p>
+        <p>{{movie.critics_consensus}}</p>
 
         <hr>
 
-        <p>{{movie.overview}}</p>
+        <p>{{movie.synopsis}}</p>
 
         <hr>
 
-        <p><a class="icon icon--with-text icon--border" href="http://www.imdb.com/title/{{movie.imdb_id}}" target="_blank">
+        <p><a class="icon icon--with-text icon--border" href="{{movie.links.alternate}}" target="_blank">
             <svg class="icon-svg svg-icon-open"><use xlink:href="#icon-open"></use></svg>
-            <span>View on IMDb</span>
+            <span>View on Rotten Tomatoes</span>
         </a></p>
 
         <button class="button icon icon--close icon--corner" ng-click="close()"><svg class="icon-svg svg-icon-cross"><use xlink:href="#icon-cross"></use></svg><span>Close</span></button>

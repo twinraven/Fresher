@@ -3,12 +3,16 @@
 
     <img ng-src="{{ getPosterUrl(movie.poster_path) }}" class="movie-tile__img">
 
+    <!-- <p class="movie-tile__overview">{{ movie.overview }}</p> -->
+
+    <p ng-show="movie.vote_average == 0">(No rating)</p>
+
     <div class="movie-tile__rating">
-        <p>&ldquo;<em>{{ movie.tagline }}</em>&rdquo;</p>
-        <p class="rt-score">
+        <p ng-show="movie-tagline">&ldquo;<em>{{ movie.tagline }}</em>&rdquo;</p>
+        <p class="rt-score" ng-show="movie.vote_average > 0">
             <strong class="rt-score__value"> {{ movie.vote_average * 10 }}%</strong>
         </p>
-        <div class="rt-score__track"><!--  ng-class="'is-' + getRatingFormatted(movie.ratings.critics_rating) -->
+        <div class="rt-score__track" ng-show="movie.vote_average > 0" ng-class="'is-' + getRatingFormatted(movie.vote_average)">
             <span class="rt-score__bar" ng-style="{'width': (movie.vote_average * 10) + '%'}"></span>
         </div>
     </div>

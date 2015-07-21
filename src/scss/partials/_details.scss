@@ -43,3 +43,12 @@
     vertical-align: top;
     width: 20px;
 }
+
+.movie-details__img {
+    height: auto;
+    width: 80%;
+
+    @include respond-min($cols-4) {
+        width: 40%;
+    }
+}

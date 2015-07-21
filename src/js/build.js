@@ -22,8 +22,11 @@ App.controller('compareCtrl', [
                 moviesService.getMovieDataById(loc.movie2)
             ])
             .then(function (movies) {
-                moviesService.save(movies[0].data, 0);
-                moviesService.save(movies[1].data, 1);
+                var movie1 = movies[0].data;
+                var movie2 = movies[1].data;
+
+                moviesService.save({ 'fetchFullData': false, 'data': movie1, 'id': getMoviePosFromId(movie1.id) });
+                moviesService.save({ 'fetchFullData': false, 'data': movie2, 'id': getMoviePosFromId(movie2.id) });
 
                 stateService.clearAllLoadingState();
             },
@@ -33,6 +36,18 @@ App.controller('compareCtrl', [
                 compare.movies[0] = {};
                 compare.movies[1] = {};
             });
+        }
+
+        function getMoviePosFromId(id) {
+            if (id === parseInt(loc.movie1, 10)) {
+                return 0;
+            }
+
+            if (id === parseInt(loc.movie2, 10)) {
+                return 1;
+            }
+
+            return 0;
         }
 
         compare.closeOverlay = function closeOverlay() {
@@ -77,6 +92,8 @@ App.controller('headerCtrl', [
 
         var loc = $location.search();
 
+        header.hasMovies = moviesService.hasMovies;
+
         header.movies = moviesService.getMovies();
     }
 ]);
@@ -91,14 +108,17 @@ App.controller('searchCtrl', [
         var search = this;
 
         search.results = null;
+        search.hasNoResults = false;
 
         search.clear = function clear() {
+            search.hasNoResults = false;
             search.results = null;
             search.text = '';
         };
 
         search.start = function start() {
             if (search.text) {
+                search.hasNoResults = false;
                 stateService.setSearchQueryState(true);
 
                 var searchQuery = moviesService.search(search.text);
@@ -106,6 +126,10 @@ App.controller('searchCtrl', [
                 searchQuery.success(function (data) {
                     search.results = data.results;
                     stateService.setSearchQueryState(false);
+
+                    if (search.results.length === 0) {
+                        search.hasNoResults = true;
+                    }
                 })
                 .error(function () {
                     console.log('error');
@@ -115,11 +139,22 @@ App.controller('searchCtrl', [
         };
 
         search.use = function use(index) {
-            if (moviesService.save(search.results[index], search.state.searchActiveId)) {
-                stateService.setSearchState(false);
+            if (moviesService.save({
+                    'fetchFullData': true,
+                    'data': search.results[index],
+                    'id': search.state.searchActiveId
+                })) {
+                    stateService.setSearchState(false);
 
-                search.clear();
-            }
+                    search.clear();
+                }
+        };
+
+        search.close = function close() {
+            stateService.clearAllLoadingState();
+            stateService.setSearchState(false);
+
+            search.clear();
         };
 
         search.state = stateService.getState();
@@ -188,6 +223,8 @@ App.directive('movieDetails', [
                 scope.close = function close() {
                     stateService.setMoreState(false);
                 };
+
+                scope.getPosterUrl = moviesService.getPosterUrl;
 
                 scope.$watch(stateService.getState, function(newState, oldState) {
                     if (newState && newState.activeMovie) {
@@ -270,7 +307,7 @@ App.config(['$routeProvider', function($routeProvider) {
 
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
-/*global APIKEY */
+/*global APIKEY, angular */
 
 App.service('moviesService', [
     '$http',
@@ -281,7 +318,7 @@ App.service('moviesService', [
 
         window.APIKEY = window.APIKEY ? window.APIKEY : '12345';
 
-        var movies = [],
+        var movies = [{}, {}],
             methods = {},
             searchUrl = 'http://api.themoviedb.org/3/search/movie?query=%SEARCH%&api_key=%APIKEY%',
             movieUrl = 'http://api.themoviedb.org/3/movie/%ID%?api_key=%APIKEY%&callback=JSON_CALLBACK',
@@ -291,6 +328,16 @@ App.service('moviesService', [
 
         methods.getMovies = function getMovies() {
             return movies;
+        };
+
+        methods.hasMovies = function hasMovies(total) {
+            if (total === 1) {
+                return !angular.equals({}, movies[0]) || !angular.equals({}, movies[1]);
+            }
+
+            if (total === 2) {
+                return !angular.equals({}, movies[0]) && !angular.equals({}, movies[1]);
+            }
         };
 
         methods.getMovieAtPos = function getMovieAtPos(pos) {
@@ -307,6 +354,7 @@ App.service('moviesService', [
 
         methods.clearMovies = function clearMovies() {
             movies.length = 0;
+            movies = [{}, {}];
         };
 
         methods.isMovieCached = function isMovieCachedAlready(id) {
@@ -317,10 +365,15 @@ App.service('moviesService', [
             return filtered.length;
         };
 
-        methods.save = function save(data, id) {
-            var pos;
+        methods.save = function save(props) {
+            var pos = 0;
 
-            if (methods.isMovieCached(data.id)) {
+            // record whether this movie is in the first or second position in our comparison
+            if (props.id !== null && props.id !== undefined) {
+                pos = parseInt(props.id, 10);
+            }
+
+            if (methods.isMovieCached(props.id)) {
                 alert('this movie is already in your comparison.\nPlease choose another');
 
                 return false;
@@ -329,36 +382,42 @@ App.service('moviesService', [
             methods.clearUrlParams();
             methods.clearBestMovie();
 
-            // async data request
-            methods.getMovieDataById(data.id).then(function (response) {
-                var data = response.data;
+            movies[pos] = {};
 
-                // record whether this movie is in the first or second position in our comparison
-                if (id !== null && id !== undefined) {
-                    pos = parseInt(id, 10);
-                }
+            if (props.fetchFullData) {
 
-                data.pos = pos;
+                // async data request
+                methods.getMovieDataById(props.data.id).then(function (response) {
+                    var data = response.data;
 
-                data.year = data.release_date.split('-')[0];
+                    saveMovieData(data, pos);
+                },
+                function (error) {
+                    alert('error occurred');
+                });
 
-                movies[movies.length] = data;
-
-                stateService.clearAllLoadingState();
-
-                if (movies.length === 2) {
-                    methods.addComparisonToUrl();
-                    methods.highlightBestMovie();
-                }
-
-
-            }, function (error) {
-                alert('error occurred');
-            });
+            } else {
+                saveMovieData(props.data, pos);
+            }
 
 
             return true;
         };
+
+        function saveMovieData(data, pos) {
+            data.pos = pos;
+
+            data.year = data.release_date.split('-')[0];
+
+            movies[pos] = data;
+
+            stateService.clearAllLoadingState();
+
+            if (methods.hasMovies(2)) {
+                methods.addComparisonToUrl();
+                methods.highlightBestMovie();
+            }
+        }
 
         methods.addComparisonToUrl = function cacheMovieComparison() {
             $location.search({
@@ -401,7 +460,7 @@ App.service('moviesService', [
             });
 
             if (pos !== -1) {
-                movies.splice(pos, 1);
+                movies.splice(pos, 1, {});
             }
         };
 
@@ -415,7 +474,7 @@ App.service('moviesService', [
         };
 
         methods.getPosterUrl = function getSearchUrl(url) {
-            return url ? imageUrl.replace(/%URL%/, url) : '';
+            return url ? imageUrl.replace(/%URL%/, url) : 'images/error.png';
         };
 
         methods.search = function search(str) {
@@ -436,15 +495,12 @@ App.service('moviesService', [
             return $http.jsonp(movieUrl);
         };
 
-        methods.getRatingFormatted = function getRatingFormatted(rating) {
-            var certified = 'certified';
+        methods.getRatingFormatted = function getRatingFormatted(score) {
             var fresh = 'fresh';
             var rotten = 'rotten';
+            var scoreNum = parseFloat(score);
 
-            if (rating === 'Certified Fresh') {
-                return certified;
-
-            } else if (rating === 'Fresh') {
+            if (scoreNum > 5) {
                 return fresh;
 
             } else {

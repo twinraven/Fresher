@@ -19,8 +19,11 @@ App.controller('compareCtrl', [
                 moviesService.getMovieDataById(loc.movie2)
             ])
             .then(function (movies) {
-                moviesService.save(movies[0].data, 0);
-                moviesService.save(movies[1].data, 1);
+                var movie1 = movies[0].data;
+                var movie2 = movies[1].data;
+
+                moviesService.save({ 'fetchFullData': false, 'data': movie1, 'id': getMoviePosFromId(movie1.id) });
+                moviesService.save({ 'fetchFullData': false, 'data': movie2, 'id': getMoviePosFromId(movie2.id) });
 
                 stateService.clearAllLoadingState();
             },
@@ -30,6 +33,18 @@ App.controller('compareCtrl', [
                 compare.movies[0] = {};
                 compare.movies[1] = {};
             });
+        }
+
+        function getMoviePosFromId(id) {
+            if (id === parseInt(loc.movie1, 10)) {
+                return 0;
+            }
+
+            if (id === parseInt(loc.movie2, 10)) {
+                return 1;
+            }
+
+            return 0;
         }
 
         compare.closeOverlay = function closeOverlay() {

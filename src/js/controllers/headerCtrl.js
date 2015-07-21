@@ -18,6 +18,8 @@ App.controller('headerCtrl', [
 
         var loc = $location.search();
 
+        header.hasMovies = moviesService.hasMovies;
+
         header.movies = moviesService.getMovies();
     }
 ]);

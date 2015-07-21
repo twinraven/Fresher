@@ -11,7 +11,7 @@ input {
 
 .button {
     appearance: none;
-    background: #ccc;
+    background-color: #ccc;
     border: 1px solid #aaa;
     border-radius: 1px;
     box-sizing: border-box;
@@ -26,13 +26,13 @@ input {
 
     &:active {
         box-shadow: none;
-        background: #aaa;
+        background-color: #aaa;
         outline: none;
     }
 
     &:hover,
     &:focus {
-        background: #aaa;
+        background-color: #aaa;
         border-color: #999;
         outline: none;
     }

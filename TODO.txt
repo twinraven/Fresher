@@ -1,7 +1,3 @@
 TODO:
 
-- fix scrolling of results - limit to 5 or 10?
-- handle 'no results' - tidy
-- prettify tile, increase size of rating; sort colours
 - get more data about each film?
-- remove references to rotten tomatoes!

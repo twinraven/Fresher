@@ -1,4 +1,4 @@
-/*global APIKEY */
+/*global APIKEY, angular */
 
 App.service('moviesService', [
     '$http',
@@ -9,7 +9,7 @@ App.service('moviesService', [
 
         window.APIKEY = window.APIKEY ? window.APIKEY : '12345';
 
-        var movies = [],
+        var movies = [{}, {}],
             methods = {},
             searchUrl = 'http://api.themoviedb.org/3/search/movie?query=%SEARCH%&api_key=%APIKEY%',
             movieUrl = 'http://api.themoviedb.org/3/movie/%ID%?api_key=%APIKEY%&callback=JSON_CALLBACK',
@@ -19,6 +19,16 @@ App.service('moviesService', [
 
         methods.getMovies = function getMovies() {
             return movies;
+        };
+
+        methods.hasMovies = function hasMovies(total) {
+            if (total === 1) {
+                return !angular.equals({}, movies[0]) || !angular.equals({}, movies[1]);
+            }
+
+            if (total === 2) {
+                return !angular.equals({}, movies[0]) && !angular.equals({}, movies[1]);
+            }
         };
 
         methods.getMovieAtPos = function getMovieAtPos(pos) {
@@ -35,6 +45,7 @@ App.service('moviesService', [
 
         methods.clearMovies = function clearMovies() {
             movies.length = 0;
+            movies = [{}, {}];
         };
 
         methods.isMovieCached = function isMovieCachedAlready(id) {
@@ -45,10 +56,15 @@ App.service('moviesService', [
             return filtered.length;
         };
 
-        methods.save = function save(data, id) {
-            var pos;
+        methods.save = function save(props) {
+            var pos = 0;
 
-            if (methods.isMovieCached(data.id)) {
+            // record whether this movie is in the first or second position in our comparison
+            if (props.id !== null && props.id !== undefined) {
+                pos = parseInt(props.id, 10);
+            }
+
+            if (methods.isMovieCached(props.id)) {
                 alert('this movie is already in your comparison.\nPlease choose another');
 
                 return false;
@@ -57,36 +73,42 @@ App.service('moviesService', [
             methods.clearUrlParams();
             methods.clearBestMovie();
 
-            // async data request
-            methods.getMovieDataById(data.id).then(function (response) {
-                var data = response.data;
+            movies[pos] = {};
 
-                // record whether this movie is in the first or second position in our comparison
-                if (id !== null && id !== undefined) {
-                    pos = parseInt(id, 10);
-                }
+            if (props.fetchFullData) {
 
-                data.pos = pos;
+                // async data request
+                methods.getMovieDataById(props.data.id).then(function (response) {
+                    var data = response.data;
 
-                data.year = data.release_date.split('-')[0];
+                    saveMovieData(data, pos);
+                },
+                function (error) {
+                    alert('error occurred');
+                });
 
-                movies[movies.length] = data;
-
-                stateService.clearAllLoadingState();
-
-                if (movies.length === 2) {
-                    methods.addComparisonToUrl();
-                    methods.highlightBestMovie();
-                }
-
-
-            }, function (error) {
-                alert('error occurred');
-            });
+            } else {
+                saveMovieData(props.data, pos);
+            }
 
 
             return true;
         };
+
+        function saveMovieData(data, pos) {
+            data.pos = pos;
+
+            data.year = data.release_date.split('-')[0];
+
+            movies[pos] = data;
+
+            stateService.clearAllLoadingState();
+
+            if (methods.hasMovies(2)) {
+                methods.addComparisonToUrl();
+                methods.highlightBestMovie();
+            }
+        }
 
         methods.addComparisonToUrl = function cacheMovieComparison() {
             $location.search({
@@ -129,7 +151,7 @@ App.service('moviesService', [
             });
 
             if (pos !== -1) {
-                movies.splice(pos, 1);
+                movies.splice(pos, 1, {});
             }
         };
 
@@ -143,7 +165,7 @@ App.service('moviesService', [
         };
 
         methods.getPosterUrl = function getSearchUrl(url) {
-            return url ? imageUrl.replace(/%URL%/, url) : '';
+            return url ? imageUrl.replace(/%URL%/, url) : 'images/error.png';
         };
 
         methods.search = function search(str) {
@@ -164,15 +186,12 @@ App.service('moviesService', [
             return $http.jsonp(movieUrl);
         };
 
-        methods.getRatingFormatted = function getRatingFormatted(rating) {
-            var certified = 'certified';
+        methods.getRatingFormatted = function getRatingFormatted(score) {
             var fresh = 'fresh';
             var rotten = 'rotten';
+            var scoreNum = parseFloat(score);
 
-            if (rating === 'Certified Fresh') {
-                return certified;
-
-            } else if (rating === 'Fresh') {
+            if (scoreNum > 5) {
                 return fresh;
 
             } else {

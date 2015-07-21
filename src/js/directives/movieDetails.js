@@ -17,6 +17,8 @@ App.directive('movieDetails', [
                     stateService.setMoreState(false);
                 };
 
+                scope.getPosterUrl = moviesService.getPosterUrl;
+
                 scope.$watch(stateService.getState, function(newState, oldState) {
                     if (newState && newState.activeMovie) {
                         scope.movie = moviesService.getCachedMovieDataById(newState.activeMovie);
